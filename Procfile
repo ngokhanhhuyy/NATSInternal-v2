@@ -1,1 +1,1 @@
-web: gunicorn --workers=3 main:app --timeout 120
+web: gunicorn --workers=15 main:application --timeout 120
