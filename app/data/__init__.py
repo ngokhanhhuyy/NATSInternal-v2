@@ -67,7 +67,6 @@ def initializeDatabase():
 def getDatabaseSession() -> Session:
     if "databaseSession" not in requestContext:
         requestContext.databaseSession = ScopeSession()
-    print(id(requestContext.databaseSession))
     return requestContext.databaseSession
 
 # @application.before_request
