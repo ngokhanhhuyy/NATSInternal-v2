@@ -24,7 +24,7 @@ engine = create_engine(
 engine.dialect.identifier_preparer._double_percents = True
 engine.dialect.identifier_preparer._double_quote = True
 engine.dialect.identifier_preparer._quote = lambda value, identifier: quoted_name(value, identifier)
-ScopeSession: Session = scoped_session(sessionmaker(
+databaseSession = scoped_session(sessionmaker(
     expire_on_commit=False,
     autocommit=False,
     autoflush=False,
@@ -65,24 +65,23 @@ def initializeDatabase():
     Base.metadata.create_all(bind=engine)
 
 def getDatabaseSession() -> Session:
-    session: Session = requestContext.databaseSession
-    return session
+    return databaseSession
 
-@application.before_request
-def creatingDatabaseSession():
-    """Creating a new database session for each request."""
-    requestContext.databaseSession: Session = ScopeSession()
+# @application.before_request
+# def creatingDatabaseSession():
+#     """Creating a new database session for each request."""
+#     requestContext.databaseSession: scoped_session[Session] = ScopeSession()
 
-@application.teardown_request
+@application.teardown_appcontext
 def destroyingDatabaseSession(exception: Exception = None):
     """Destroying existing database session when the request - response circle ended."""
-    databaseSession: Session | None = requestContext.pop("databaseSession", None)
+    databaseSession: scoped_session[Session] | None = requestContext.pop("databaseSession", None)
     if databaseSession is not None:
-        databaseSession.close()
+        databaseSession.remove()
 
 @contextmanager
 def getTemporaryDatabaseSession() -> Generator[Session, None, None]:
-    session: Session = ScopeSession()
+    session: Session = databaseSession
     try:
         yield session
     except Exception:
