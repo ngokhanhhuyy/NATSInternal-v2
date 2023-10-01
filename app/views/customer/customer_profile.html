@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='css/customer.css') }}" type="text/css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    {% if customer.sex == "Nam" %}
+        {% set sexType = "male" %}
+    {% elif customer.sex == "Nữ" %}
+        {% set sexType = "female" %}
+    {% endif %}
+    <div class="row align-self-center">
+        <!-- Name + Profile Picture -->
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="block profile name">
+                {% if customer.profilePicture is not none %}
+                    <a href="{{ url_for('photo', photoID=customer.profilePicture.id) }}">
+                        <img class="profile-picture" src="data:image/jpeg;base64,{{ customer.profilePicture.content }}">
+                    </a>
+                {% else %}
+                    <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}">
+                {% endif %}
+                <table class="name-layout">
+                    <tr>
+                        <td class="cover-picture">
+                            {% if customer.profilePicture is not none %}
+                                <img src="data:image/jpeg;base64,{{ customer.profilePicture.content }}">{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name" align="left">
+                            <div class="name-container {{ sexType }}">
+                                <span class="fullname {{sexType }}">{{ customer.fullName }}<br/></span>
+                                <span class="nickname">{{ customer.nickName }}<br/></span>
+                                <span class="company">{{ customer.company }}</span>
+                            </div>
+                            <table class="modifying-info-container">
+                                <tr>
+                                    <td class="label">Đã tạo: </td>
+                                    <td class="field">
+                                        {{ customer.updatedDateTime }} 
+                                        {% if customer.updatedDateTime != "Vừa xong" %}
+                                            trước
+                                        {% endif %}
+                                        <br/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label">Sửa lần cuối: </td>
+                                    <td class="field">
+                                        {{ customer.updatedDateTime }} 
+                                        {% if customer.updatedDateTime != "Vừa xong" %}
+                                            trước
+                                        {% endif %}
+                                        <br/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Personal information -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block profile personal-info">
+                <div class="header">Thông tin cá nhân</div>
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td class="label" width="100" align="right">Giới tính</td>
+                            <td class="field">{{ customer.sex }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Ngày sinh</td>
+                            <td class="field">{{ customer.birthday }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Số điện thoại</td>
+                            <td class="field">{{ customer.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Số zalo</td>
+                            <td class="field">{{ customer.zalo }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Facebook</td>
+                            <td class="field">
+                                <a href="{{ customer.facebookURL }}">
+                                    {{ customer.facebookURL }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Email</td>
+                            <td class="field">
+                                <a href="mailto: {{ customer.email }}">
+                                    {{ customer.email }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Địa chỉ</td>
+                            <td class="field">{{ customer.address }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label" align="right">Giới thiệu bởi</td>
+                            <td class="field">
+                                {% if customer.introducer is not none %}
+                                    {{ customer.introducer.fullName }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Note -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block profile note">
+                <div class="header">Ghi chú</div>
+                <div class="content">
+                    {% if customer.note | length > 0 %}
+                        {{ customer.note }}
+                    {% else %}
+                        <span class="empty">Không có ghi chú</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="block profile photo-container">
+                <div class="header">Hình ảnh</div>
+                <div class="content">
+                    <div class="container-fluid d-flex">
+                        <div class="row gx-2 gy-2 justify-content-center align-self-center">
+                            {% if customer.secondaryPhotos | length == 0 %}
+                                <span>Không có hình ảnh</span>
+                            {% else %}
+                                {% for photo in customer.secondaryPhotos %}
+                                <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                    <a href="{{ url_for('photo', photoID = photo.id) }}">
+                                        <img src="data:image/jpeg;base64,{{ photo.content }}">
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="block profile photo-container">
+                <div class="header">Tổng số đơn hàng đã đặt</div>
+                <div class="content">
+                </div>
+            </div>
+        </div>
+        <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="block profile photo-container">
+                <div class="header">Tổng số tiền đã giao dịch</div>
+                <div class="content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

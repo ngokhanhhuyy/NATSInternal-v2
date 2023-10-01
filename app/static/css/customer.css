@@ -1,0 +1,574 @@
+:root {
+    --list-group-border-radius: 15px;
+}
+
+.block {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.block.stats {
+    cursor: pointer;
+}
+
+.block.stats:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.block.stats.primary {
+    color: white;
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+    border: none;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.block.stats.primary:hover {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+}
+
+.block.stats.graph_block .content .graph-container {
+    width: 100%;
+}
+
+.block.stats.graph_block .content .graph-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.block .header {
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 0.85em;
+    font-weight: bold;
+    width: 100%;
+    padding: 5px 20px;
+}
+
+.block.stats.primary .header {
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.block.stats .header svg {
+    background: rgb(75, 120, 255);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    padding: 3px;
+    margin-right: 10px;
+}
+
+.block.stats .content {
+    position: relative;
+    padding: 15px 20px 20px 20px;
+    text-align: left;
+}
+
+.block.stats .content .rate_container {
+    float: left;
+    margin-right: 20px;
+}
+  
+.block.stats .content .rate_label {
+    font-size: 0.85em;
+    margin-right: 20px;
+}
+
+.block.stats .content .rate_figure_container {
+    padding: 0px 10px;
+    display: inline-block;
+    border-radius: 0.75em;
+    height: 1.5em;
+    margin-bottom: 5px;
+}
+
+.block.stats .content .rate_figure_container.increased {
+    background: rgb(166, 255, 205);
+}
+
+.block.stats .content .rate_figure_container.same {
+    background: rgb(246, 255, 166);
+}
+
+.block.stats .content .rate_figure_container.decreased {
+    background: rgb(255, 186, 180);
+}
+
+.block.stats .content .rate_icon {
+    width: 12px;
+    height: 12px;
+}
+
+.block.stats .content .rate_figure {
+    font-size: 0.9em;
+}
+
+.block.stats .content .rate_figure.increased {
+    color: rgb(0, 130, 38);
+}
+
+.block.stats .content .rate_figure.same {
+    color: rgb(178, 148, 0);
+}
+
+.block.stats .content .rate_figure.decreased {
+    color: rgb(192, 56, 43);
+}
+
+.block.stats .content .main_figure_container {
+    text-align: right;
+    width: 100%;
+}
+
+.block.stats .content .main_figure {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.block.stats .content .main_figure_label {
+    font-size: 1em;
+    display: inline;
+}
+
+.block.stats .content table {
+    width: 100%;
+}
+.block.stats .content table tr {
+    height: 50px;
+}
+
+.block.stats .content table tr td.profile-picture img {
+    background: rgb(240, 240, 240);
+    width: 35px;
+    height: 35px;
+    border: 2px solid white;
+    border-radius: 50%;
+    outline: 1px solid #ccc;
+}
+
+.block.stats .content table tr td.amount {
+    font-size: 0.8em;
+}
+
+.block.stats .content table tr td.amount span {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    display: block;
+    padding: 2px 5px;
+    width: fit-content;
+}
+
+.block.stats .content table tr td.amount span.first {
+    background: gold;
+    color: rgb(139, 102, 9); 
+}
+
+.block.stats .content table tr td.amount span.second {
+    background: rgb(201, 201, 201);
+    color: rgb(0, 0, 0); 
+}
+
+.block.stats .content table tr td.amount span.third {
+    background: #b96a1b;
+    color: #ffeede; 
+}
+
+.block.tools.search,
+.block.tools.sort {
+    height: 100%;
+}
+
+.block.tools .content {
+    padding: 15px 20px;
+}
+
+.block.tools .content form {
+    margin: 0;
+}
+
+.block.tools .content table {
+    font-size: 0.9em;
+    width: 100%;
+    table-layout: fixed;
+    margin: 0px;
+}
+
+.block.tools .content table tr td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.block.tools .content table tr td.label {
+    color: rgb(170, 170, 170);
+    padding-right: 15px;
+}
+
+.block.tools .content table tr td.field .form-group .form-select {
+    cursor: pointer;
+}
+
+.block.tools .content table tr td button {
+    width: 100% !important;
+}
+
+.block.list .content table {
+    width: 100%;
+    font-size: 14px;
+}
+
+.block.list .content table tr:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.block.list .content table td {
+    padding: 10px 10px;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.block.list .content table td a:hover {
+    text-decoration: underline !important;
+}
+
+.block.list .content table tr.row1 {
+    background: transparent
+}
+
+.block.list .content table tr.row2 {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.block.list .content table td:first-child {
+    padding-left: 30px;
+}
+
+.block.list .content table td:last-child {
+    padding-right: 30px;
+}
+
+.block.list .content table td.profile-picture {
+    width: 100px;
+}
+
+.block.list .content table td.profile-picture img {
+    width: 60px;
+    height: 60px;
+    border: 2px solid white;
+    outline: 1px solid #ccc;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.block.list .content table td.name .birthday {
+    display: none;
+}
+
+.block.list .content table td.personal-info-label {
+    font-size: 0.9em;
+    color: rgb(170, 170, 170);
+    width: 100px;
+}
+
+.block.list .content table td.personal-info {
+    font-size: 0.9em;
+    width: 180px;
+}
+
+.block.list .content table td.name a.male,
+.block.list .content table td.personal-info .sex.male {
+    color: rgb(52, 125, 235) !important;
+}
+
+.block.list .content table td.name a.female,
+.block.list .content table td.personal-info .sex.female {
+    color: rgb(235, 52, 89) !important;
+}
+
+.block.list .header,
+.block.list .footer {
+    font-weight: normal;
+    background: rgba(0, 0, 0, 0.07);
+    padding: 0px;
+}
+
+.block.list .header {
+    border-bottom: 1px solid #ccc;
+}
+
+.block.list .footer {
+    border-top: 1px solid #ccc;
+}
+
+.block.list .header .pagination,
+.block.list .footer .pagination {
+    width: 100%;
+    margin: 10px auto;
+}
+
+.block.list .header ul.pagination li.page-item.disabled a.page-link,
+.block.list .footer ul.pagination li.page-item.disabled a.page-link {
+    background: white !important;
+}
+
+.block.profile.name {
+    overflow: hidden;
+    position: relative;
+}
+
+.block.profile.name img.profile-picture {
+    background: rgb(240, 240, 240);
+    width: 150px;
+    height: 150px;
+    border: 5px solid white;
+    border-radius: 50%;
+    outline: 1px solid #ccc;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.block.profile.name table.name-layout {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.block.profile.name table.name-layout,
+.block.profile.name table.name-layout tr,
+.block.profile.name table.name-layout tr td {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.block.profile.name table.name-layout td.cover-picture {
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+    height: 150px;
+    overflow: hidden;
+}
+
+.block.profile.name table.name-layout td.cover-picture img {
+    width: 150%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(50px) brightness(150%);
+    display: inline-block;
+}
+
+
+.block.profile.name table.name-layout tr td.name {
+    min-width: 300px;
+    position: relative;
+}
+
+.block.profile.name table.name-layout tr td.name,
+.block.profile.name table.name-layout tr td.modifying-info {
+    padding: 15px 30px 15px 30px;
+}
+
+.block.profile.name table.name-layout tr td.name .name-container {
+    border-left-width: 5px;
+    border-left-style: solid;
+    padding-left: 10px;
+}
+
+.block.profile.name table.name-layout tr td.name .name-container.male {
+    border-color: rgb(52, 125, 235);
+}
+
+.block.profile.name table.name-layout tr td.name .name-container.female {
+    border-color: rgb(235, 52, 89);
+}
+
+.block.profile.name table.name-layout tr td.name .fullname {
+    font-size: 1.6em;
+}
+
+.block.profile.name table.name-layout tr td.name .fullname.male {
+    color: rgb(52, 125, 235) !important;
+}
+
+.block.profile.name table.name-layout tr td.name .fullname.female {
+    color: rgb(235, 52, 89) !important;
+}
+
+.block.profile.name table.name-layout tr td.name .nickname,
+.block.profile.name table.name-layout tr td.name .company {
+    font-size: 1.0em;
+}
+
+.block.profile.name table.name-layout tr td.name .modifying-info-container {
+    display: inline-block;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    vertical-align: center;
+}
+
+.block.profile.name table.name-layout tr td.name table.modifying-info-container td.label {
+    color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    padding-right: 15px;
+    text-align: right;
+}
+
+.block.profile.personal-info,
+.block.profile.note {
+    height: 100%;
+}
+
+.block.profile.personal-info .content,
+.block.profile.note .content {
+    padding: 15px;
+}
+
+.block.profile.personal-info .content table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.block.profile.personal-info .content table tr td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.block.profile.personal-info .content table tr td.label {
+    color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.block.profile.personal-info .content table tr td.field {
+    color: rgb(75, 120, 255);
+    padding-left: 20px;
+}
+
+.block.profile.personal-info .content table tr td.field a {
+    color: rgb(75, 120, 255) !important;
+}
+
+.block.profile.personal-info .content table tr td.field a:hover {
+    color: rgb(115, 160, 255) !important;
+    text-decoration: underline !important;
+}
+
+.block.profile.personal-info .content table tr td.field a:hover {
+    text-decoration: underline !important;
+}
+
+.block.profile.note .content span.empty  {
+    color: silver;
+}
+
+.block.profile.photo-container {
+    vertical-align: center;
+}
+
+.block.profile.photo-container .content {
+    padding: 15px;
+}
+
+.block.profile.photo-container .content span {
+    color: silver;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.block.profile.photo-container .content img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
+
+.block.profile.photo-container .content img:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.block.profile.photo-container, .block.profile.links {
+    height: 100%;
+}
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+@media(max-width: 690px) {
+    .block.list .content table td.profile-picture {
+        width: 90px;
+    }
+
+    .block.list .content table td.profile-picture img{
+        width: 50px;
+        height: 50px;
+    }
+
+    .block.list .content table td.name .birthday {
+        display: inline;
+    }
+
+    .block.list .content table td.personal-info-label,
+    .block.list .content table td.personal-info {
+        display: none;
+    }
+
+    .block.profile.name img.profile-picture {
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .block.profile.name table.name-layout tr td.name {
+        padding-top: 35px;
+    }
+
+    .block.profile.name table.name-layout tr td.name .name-container {
+        border: none;
+        text-align: center;
+    }
+
+    .block.profile.name table.name-layout tr td.name .modifying-info-container {
+        display: none;
+    }
+}
+
+@media(max-width: 500px) {
+    .column-min-width {
+        min-width: 320px;
+    }
+
+    .block.stats.graph_block .content {
+        margin: auto;
+    }
+
+    .block.list .header ul.pagination li.page-item a.page-link.hidden-in-small-screen,
+    .block.list .footer ul.pagination li.page-item a.page-link.hidden-in-small-screen {
+        display: none;
+    }
+
+    .block.profile.name .fullname {
+        font-size: 1.3em;
+    }
+
+    .block.profile.name .nickname,
+    .block.profile.name .company {
+        font-size: 1em;
+    }
+}

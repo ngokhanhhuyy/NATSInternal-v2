@@ -1,0 +1,416 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='css/customer.css') }}" type="text/css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-self-center">
+        <!-- Total customers count -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <a href="{{ url_for('customerList') }}">
+                <div class="block stats primary links">
+                    <div class="header">
+                        <span>Tổng số khách hàng</span>
+                    </div>
+                    <div class="content">
+                        <div class="rate_container">
+                            {% if totalCounts.lastMonth.name is not none %}
+                                <div class="rate_row_container">
+                                    <span class="rate_label">{{ totalCounts.lastMonth.name }}</span>
+                                        {% if totalCounts.lastMonth.count < totalCounts.twoMonthsAgo.count %}
+                                            {% set changingType = "decreased" %}
+                                            {% set imagePath = "images/decreased.png" %}
+                                        {% elif totalCounts.lastMonth.count == totalCounts.twoMonthsAgo.count %}
+                                            {% set changingType = "same" %}
+                                            {% set imagePath = "images/same.png" %}
+                                        {% else %}
+                                            {% set changingType = "increased" %}
+                                            {% set imagePath = "images/increased.png" %}
+                                        {% endif %}
+                                        <div class="rate_figure_container {{ changingType }}">
+                                            <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                            <span class="rate_figure {{ changingType }}">
+                                                {{ totalCounts.lastMonth.count }}
+                                            </span>
+                                        </div>
+                                </div>
+                            {% endif %}
+                            {% if totalCounts.twoMonthsAgo.name is not none %}
+                                <div class="rate_row_container">
+                                    <span class="rate_label">{{ totalCounts.twoMonthsAgo.name }}</span>
+                                    {% if totalCounts.twoMonthsAgo.count < totalCounts.threeMonthsAgo.count %}
+                                        {% set changingType = "decreased" %}
+                                        {% set imagePath = "images/decreased.png" %}
+                                    {% elif totalCounts.twoMonthsAgo.count == totalCounts.threeMonthsAgo.count %}
+                                        {% set changingType = "same" %}
+                                        {% set imagePath = "images/same.png" %}
+                                    {% else %}
+                                        {% set changingType = "increased" %}
+                                        {% set imagePath = "images/increased.png" %}
+                                    {% endif %}
+                                    <div class="rate_figure_container {{ changingType }}">
+                                        <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                        <span class="rate_figure {{ changingType }}">
+                                            {{ totalCounts.twoMonthsAgo.count }}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="main_figure_container">
+                            <span class="main_figure">{{ totalCounts.thisMonth.count }}</span>
+                            <span class="main_figure_label">khách</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- New customers count -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block stats links">
+                <div class="header">
+                    <span>Khách hàng mới</span>
+                </div>
+                <div class="content">
+                    <div class="rate_container">
+                        {% if newCounts.lastMonth.name is not none %}
+                            <div class="rate_row_container">
+                                <span class="rate_label">{{ newCounts.lastMonth.name }}</span>
+                                {% if newCounts.lastMonth.count < newCounts.twoMonthsAgo.count %}
+                                    {% set changingType = "decreased" %}
+                                    {% set imagePath = "images/decreased.png" %}
+                                {% elif newCounts.lastMonth.count == newCounts.twoMonthsAgo.count %}
+                                    {% set changingType = "same" %}
+                                    {% set imagePath = "images/same.png" %}
+                                {% else %}
+                                    {% set changingType = "increased" %}
+                                    {% set imagePath = "images/increased.png" %}
+                                {% endif %}
+                                <div class="rate_figure_container {{ changingType }}">
+                                    <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                    <span class="rate_figure {{ changingType }}">
+                                        {{ newCounts.lastMonth.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if newCounts.twoMonthsAgo.name is not none %}
+                            <div class="rate_row_container">
+                                <span class="rate_label">{{ newCounts.twoMonthsAgo.name }}</span>
+                                {% if newCounts.twoMonthsAgo.count < newCounts.threeMonthsAgo.count %}
+                                    {% set changingType = "decreased" %}
+                                    {% set imagePath = "images/decreased.png" %}
+                                {% elif newCounts.twoMonthsAgo.count == newCounts.threeMonthsAgo.count %}
+                                    {% set changingType = "same" %}
+                                    {% set imagePath = "images/same.png" %}
+                                {% else %}
+                                    {% set changingType = "increased" %}
+                                    {% set imagePath = "images/increased.png" %}
+                                {% endif %}
+                                <div class="rate_figure_container {{ changingType }}">
+                                    <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                    <span class="rate_figure {{ changingType }}">
+                                        {{ newCounts.twoMonthsAgo.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="main_figure_container">
+                        <span class="main_figure">{{ newCounts.thisMonth.count }}</span>
+                        <span class="main_figure_label">khách</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Customer count who have purchased 2 times or more -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block stats links">
+                <div class="header">
+                    <span>Khách hàng mua 2 lần trở lên</span>
+                </div>
+                <div class="content">
+                    <div class="rate_container">
+                        {% if loyalCounts.lastMonth.name is not none %}
+                            <div class="rate_row_container">
+                                <span class="rate_label">{{ loyalCounts.lastMonth.name }}</span>
+                                {% if loyalCounts.lastMonth.count < loyalCounts.twoMonthsAgo.count %}
+                                    {% set changingType = "decreased" %}
+                                    {% set imagePath = "images/decreased.png" %}
+                                {% elif loyalCounts.lastMonth.count == loyalCounts.twoMonthsAgo.count %}
+                                    {% set changingType = "same" %}
+                                    {% set imagePath = "images/same.png" %}
+                                {% else %}
+                                    {% set changingType = "increased" %}
+                                    {% set imagePath = "images/increased.png" %}
+                                {% endif %}
+                                <div class="rate_figure_container {{ changingType }}">
+                                    <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                    <span class="rate_figure {{ changingType }}">
+                                        {{ loyalCounts.lastMonth.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if loyalCounts.twoMonthsAgo.name is not none %}
+                            <div class="rate_row_container">
+                                <span class="rate_label">{{ loyalCounts.twoMonthsAgo.name }}</span>
+                                {% if loyalCounts.twoMonthsAgo.count < loyalCounts.threeMonthsAgo.count %}
+                                    {% set changingType = "decreased" %}
+                                    {% set imagePath = "images/decreased.png" %}
+                                {% elif loyalCounts.twoMonthsAgo.count == loyalCounts.threeMonthsAgo.count %}
+                                    {% set changingType = "same" %}
+                                    {% set imagePath = "images/same.png" %}
+                                {% else %}
+                                    {% set changingType = "increased" %}
+                                    {% set imagePath = "images/increased.png" %}
+                                {% endif %}
+                                <div class="rate_figure_container {{ changingType }}">
+                                    <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                    <span class="rate_figure {{ changingType }}">
+                                        {{ loyalCounts.twoMonthsAgo.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="main_figure_container">
+                        <span class="main_figure">{{ loyalCounts.thisMonth.count }}</span>
+                        <span class="main_figure_label">khách</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Customer counts who have purchased totally 20.000.000vnd or more -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block stats links">
+                <div class="header">
+                    <span>Khách hàng mua tổng trên 20 triệu đồng</span>
+                </div>
+                <div class="content">
+                    <div class="rate_container">
+                        {% if highValueCounts.lastMonth.name is not none %}
+                            <div class="rate_row_container">
+                                <span class="rate_label">{{ highValueCounts.lastMonth.name }}</span>
+                                {% if highValueCounts.lastMonth.count < highValueCounts.twoMonthsAgo.count %}
+                                    {% set changingType = "decreased" %}
+                                    {% set imagePath = "images/decreased.png" %}
+                                {% elif highValueCounts.lastMonth.count == highValueCounts.twoMonthsAgo.count %}
+                                    {% set changingType = "same" %}
+                                    {% set imagePath = "images/same.png" %}
+                                {% else %}
+                                    {% set changingType = "increased" %}
+                                    {% set imagePath = "images/increased.png" %}
+                                {% endif %}
+                                <div class="rate_figure_container {{ changingType }}">
+                                    <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                    <span class="rate_figure {{ changingType }}">
+                                        {{ highValueCounts.lastMonth.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if highValueCounts.twoMonthsAgo.name is not none %}
+                            <div class="rate_row_container">
+                                <span class="rate_label">{{ highValueCounts.twoMonthsAgo.name }}</span>
+                                {% if highValueCounts.twoMonthsAgo.count < highValueCounts.threeMonthsAgo.count %}
+                                    {% set changingType = "decreased" %}
+                                    {% set imagePath = "images/decreased.png" %}
+                                {% elif highValueCounts.twoMonthsAgo.count == highValueCounts.threeMonthsAgo.count %}
+                                    {% set changingType = "same" %}
+                                    {% set imagePath = "images/same.png" %}
+                                {% else %}
+                                    {% set changingType = "increased" %}
+                                    {% set imagePath = "images/increased.png" %}
+                                {% endif %}
+                                <div class="rate_figure_container {{ changingType }}">
+                                    <img class="rate_icon" src="{{ url_for('static', filename = imagePath) }}"/>
+                                    <span class="rate_figure {{ changingType }}">
+                                        {{ highValueCounts.twoMonthsAgo.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="main_figure_container">
+                        <span class="main_figure">{{ highValueCounts.thisMonth.count }}</span>
+                        <span class="main_figure_label">khách</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top 5 spending customers -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block stats">
+                <div class="header">
+                    <span>Top 5 khách hàng giá trị nhất tháng</span>
+                </div>
+                <div class="content">
+                    <table>
+                        {% for position, customer in top5ByOrderAmount.customers.items() %}
+                            <tr>
+                                {% if customer is not none %}
+                                    {% if position == 1 %}
+                                        {% set positionName = "first" %}
+                                    {% elif position == 2 %}
+                                        {% set positionName = "second" %}
+                                    {% elif position == 3 %}
+                                        {% set positionName = "third" %}
+                                    {% else %}
+                                        {% set positionName = "" %}
+                                    {% endif %}
+                                    <td class="profile-picture">
+                                        {% if customer.profilePicture is not none %}
+                                            <img src="data:image/jpeg;base64,{{ customer.profilePicture }}">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='profile_pictures/default.png') }}">
+                                        {% endif %}
+                                    </td>
+                                    <td class="fullname">
+                                        <a href="{{ url_for('customerProfile', customerID=customer.id) }}">
+                                            {{ customer.fullName }}
+                                        </a>
+                                    </td>
+                                    <td class="amount" align="right">
+                                        <span class="{{ positionName }}">
+                                            {{ '{:,.0f}'.format(customer.value) | replace(',', '.') }}đ
+                                        </span>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Top 5 most ordering customers -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block stats">
+                <div class="header">
+                    <span>Top 5 khách đặt hàng nhiều nhất</span>
+                </div>
+                <div class="content">
+                    <table>
+                        {% for position, customer in top5ByOrderCount.customers.items() %}
+                            <tr>
+                                {% if customer is not none %}
+                                    {% if position == 1 %}
+                                        {% set positionName = "first" %}
+                                    {% elif position == 2 %}
+                                        {% set positionName = "second" %}
+                                    {% elif position == 3 %}
+                                        {% set positionName = "third" %}
+                                    {% else %}
+                                        {% set positionName = "" %}
+                                    {% endif %}
+                                    <td class="profile-picture">
+                                        {% if customer.profilePicture is not none %}
+                                            <img src="data:image/jpeg;base64,{{ customer.profilePicture }}">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='profile_pictures/default.png') }}">
+                                        {% endif %}
+                                    </td>
+                                    <td class="fullname">
+                                        <a href="{{ url_for('customerProfile', customerID=customer.id) }}">
+                                            {{ customer.fullName }}
+                                        </a>
+                                    </td>
+                                    <td class="amount" align="right">
+                                        <span class="{{ positionName }}">
+                                            {{ customer.value }} đơn hàng
+                                        </span>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- New customers chart -->
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="block stats graph_block">
+                <div class="header">
+                    <span>Thời gian trung bình để có khách hàng mới</span>
+                </div>
+                <div class="content">
+                    <div class="graph-container">
+                        <canvas id="deltaTimeChart"
+                                graph-labels='{{ deltaTimeOverLast6Months.keys() | list | tojson}}'
+                                graph-data="{{ deltaTimeOverLast6Months.values() | list | tojson}}">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var chartElement = document.getElementById('deltaTimeChart');
+    var ctx = chartElement.getContext('2d');
+
+    var chartLabelsString = chartElement.getAttribute("graph-labels");
+    var chartLabels = JSON.parse(chartLabelsString);
+    var chartDataString = chartElement.getAttribute("graph-data");
+    var chartData = JSON.parse(chartDataString);
+    
+    function createGradient(height) {
+        var gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, 'rgba(245, 34, 90, 0.5)'); // Start color
+        gradient.addColorStop(1, 'rgba(245, 34, 90, 0.0)'); // End color
+        return gradient;
+    }
+
+    var canvasHeight = ctx.canvas.height;
+    var gradient = createGradient(canvasHeight);
+
+    var deltaTimeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Số ngày trung bình để có khách hàng mới',
+                data: chartData,
+                fill: true,
+                backgroundColor: gradient,
+                borderColor: 'rgb(245, 34, 90)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        stepSize: 1
+                    }
+                },
+            },
+            responsive: true,
+            devicePixelRatio: 2,
+            onResize: function(chart) {
+                var newCanvasHeight = chart.canvas.clientHeight;
+                chart.data.datasets[0].backgroundColor = createGradient(newCanvasHeight);
+                chart.update();
+            }
+        }
+    });
+    
+    window.addEventListener('resize', function () {
+        deltaTimeChart.resize();
+    });
+</script>
+
+{% endblock %}

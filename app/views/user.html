@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='css/user.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row no-gutters justify-content-center align-items-center">
+            <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="block">
+                    <div class="container-xl">
+                        <div class="row container no-gutters">
+                            <div class="col col-sm-auto col-md-auto col-lg-auto col-xl-auto profile-picture-column p-0">
+                                {% if user.profilePicture is not none %}
+                                    <img class="profile-picture" src="data:image/jpeg;base64,{{ user.profilePicture }}">
+                                {% else %}
+                                    <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}">
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <span class="fullname">{{ user.fullName}}</span><br/>
+                                <span class="username">@{{ user.userName }}</span><br/>
+                                <div class="position-container">
+                                    {% for role in user.roles.values() %}
+                                        {% if role == 'Nhà phát triển' %}
+                                            {% set className = 'developer' %}
+                                        {% elif role == 'Giám đốc' %}
+                                            {% set className = 'owner' %}
+                                        {% elif role == 'Thành viên gia đình' %}
+                                            {% set className = 'family-member' %}
+                                        {% elif role == 'Quản lý' %}
+                                            {% set className = 'manager' %}
+                                        {% elif role == 'Kế toán' %}
+                                            {% set className = 'accountant' %}
+                                        {% elif role == 'Thu ngân' %}
+                                            {% set className = 'cashier' %}
+                                        {% elif role == 'Kế toán' %}
+                                            {% set className = 'accountant' %}
+                                        {% elif role == 'Nhân viên' %}
+                                            {% set className = 'staff' %}
+                                        {% elif role == 'Cộng tác viên' %}
+                                            {% set className = 'colaborator' %}
+                                        {% endif %}
+                                        <span class="position-tag {{ className }}">
+                                            {{ role }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="block personal-info">
+                    <table>
+                        <tr>
+                            <td class="label">Giới tính</td>
+                            <td class="field"><span>{{ user.sex }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Ngày sinh</td>
+                            <td class="field"><span>{{ user.birthdayString }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Số điện thoại</td>
+                            <td class="field"><span>{{ user.phone if user.phone }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Email</td>
+                            <td class="field"><span>{{ user.email if user.email }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Trực tuyến</td>
+                            <td class="field">
+                                {% if user.onlineStatus == "Online" %}
+                                    {% set className = "bg-success" %}
+                                {% else %}
+                                    {% set className = "bg-secondary" %}
+                                {% endif %}
+                                <div class="badge {{ className }}">{{ user.onlineStatus }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="block personal-info">
+                    <table>
+                        <tr>
+                            <td class="label">Số căn cước</td>
+                            <td class="field">{{ user.idCardNumber if user.idCardNumber }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Ngày gia nhập</td>
+                            <td class="field">{{ user.joiningDateString }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Tạo tài khoản</td>
+                            <td class="field">{{ user.createdDateTimeString }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Sửa lần cuối</td>
+                            <td class="field">{{ user.updatedTimeDeltaString }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Tình trạng</td>
+                            <td class="field">
+                                {% if user.status == "Không xác định" %}
+                                    {% set className = "bg-secondary" %}
+                                {% elif user.status == "Đang chờ kích hoạt" %}
+                                    {% set className = "bg-light text-dark" %}
+                                {% elif user.status == "Đang hoạt động" %}
+                                    {% set className = "bg-success text-white" %}
+                                {% elif user.status == "Tạm thời ngưng" %}
+                                    {% set className = "bg-warning text-dark" %}
+                                {% elif user.status == "Đã nghỉ" %}
+                                    {% set className = "bg-dark" %}
+                                {% endif %}
+                                <div class="badge {{ className }}">{{ user.status }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="block personal-info">
+                    <span class="null-field">Không có ghi chú</span>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="block links">
+                    <div class="container-fluid">
+                        <div class="row gx-2 gy-2 justify-content-center">
+                            <!-- Modifying buttons -->
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-primary">
+                                        Chỉnh sửa
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-danger">
+                                        Xoá bỏ
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Modifying buttons -->
+                        </div>
+                        <div class="row gx-2 gy-2 my-0 justify-content-center">
+                            <!-- Supplies buttons -->
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-light">
+                                        Nhập hàng
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-light">
+                                        Đơn hàng
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-light">
+                                        Liệu trình
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-light">
+                                        Thanh toán đơn hàng
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-light">
+                                        Thanh toán liệu trình
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                <a href="#">
+                                    <div class="btn btn-light">
+                                        Liệu trình đã/đang thực hiện
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="block photo-container">
+                    <div class="container-fluid d-flex">
+                        <div class="row gx-2 gy-2 justify-content-center align-self-center">
+                            {% if user.secondaryPhotos | length == 0 %}
+                                <span>Không có ảnh</span>
+                            {% else %}
+                                {% for photoID, photoContent in user.secondaryPhotos.items() %}
+                                <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                    <a href="{{ url_for('photo', photoID = photoID) }}">
+                                        <img src="data:image/jpeg;base64,{{ photoContent }}">
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

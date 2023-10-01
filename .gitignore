@@ -1,0 +1,16 @@
+**/__pycache__/
+*.pyc
+.idea
+.mypy_cache
+.vs
+.vscode
+alembic
+venv
+alembic.ini
+app.zip
+generating_images.py
+mypy.ini
+test2.py
+app/static/photos
+app/static/profile_pictures/staff_1.jpg
+app/static/profile_pictures/staff_2.jpg

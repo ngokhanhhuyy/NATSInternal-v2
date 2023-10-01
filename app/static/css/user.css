@@ -1,0 +1,171 @@
+.block {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.profile-picture {
+    background: rgb(240, 240, 240);
+    width: 100px;
+    height: 100px;
+    border: 5px solid white;
+    border-radius: 50%;
+    outline: 1px solid #ccc;
+}
+
+.profile-picture-column {
+    max-width: 100px !important;
+}
+
+.fullname {
+    font-size: 22px;
+}
+
+.username {
+    font-size: 17px;
+}
+
+.position-container {
+    display: inline-block;
+}
+
+.position-container .position-tag {
+    background: gray;
+    color: white;
+    padding: 1px 5px;
+    border-radius: 5px;
+    margin: 2px;
+    display: inline-block;
+}
+
+.position-container .position-tag.developer {
+    background: darkmagenta;
+}
+
+.position-container .position-tag.owner {
+    background: darkred;
+}
+
+.position-container .position-tag.family-member {
+    color: black;
+    background: gold;
+}
+
+.position-container .position-tag.manager {
+    background: darkblue;
+}
+
+.position-container .position-tag.accountant {
+    background: green;
+}
+
+.position-container .position-tag.cashier {
+    color: black;
+    background: rgb(0, 214, 214);
+}
+
+.position-container .position-tag.staff {
+    color: black;
+    background: darkorange;
+}
+
+.personal-info {
+    height: 100%;
+}
+
+.personal-info table {
+    table-layout: fixed;
+    font-size: 13px;
+    border: none;
+}
+
+.personal-info table td {
+    padding: 5px 15px;
+}
+
+.personal-info .label {
+    width: 100px;
+    text-align: right;
+}
+
+.personal-info .field {
+    color: darkblue;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 100px);
+}
+
+.personal-info .field span {
+    width: 100%;
+    overflow: hidden;
+    display: block;
+}
+
+.personal-info span.null-field {
+    color: silver;
+}
+
+.personal-info .field .badge {
+    font-weight: normal;
+}
+
+.photo-container {
+    vertical-align: center;
+}
+
+.photo-container span {
+    color: silver;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.photo-container img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
+
+.photo-container img:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.photo-container, .links {
+    height: 100%;
+}
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row > [class*='col-'] {
+display: flex;
+flex-direction: column;
+}
+
+@media (max-width: 991px) {
+    .photos img {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fullname {
+        font-size: 18px;
+    }
+
+    .username {
+        font-size: 15px;
+    }
+}

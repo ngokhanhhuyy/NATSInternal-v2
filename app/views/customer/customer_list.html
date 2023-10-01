@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='css/customer.css') }}" type="text/css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-self-center">
+        <!-- Search -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block tools search">
+                <div class="header">
+                    <span>Tìm kiếm</span>
+                </div>
+                <div class="content">
+                    <form action="{{ url_for('customerSearch') }}" method="GET">
+                        <table>
+                            <tr>
+                                <td class="label">
+                                    <div class="form-group">
+                                        {{ searchForm.searchContent.label }}
+                                    </div>
+                                </td>
+                                <td class="label" width="130">
+                                    <div class="form-group">
+                                        {{ searchForm.searchField.label }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="field">
+                                    <div class="form-group">
+                                        {{ searchForm.searchContent(class_="form-control", placeholder="Nội dung ...") }}
+                                    </div>
+                                </td>
+                                <td class="field">
+                                    <div class="form-group">
+                                        {{ searchForm.searchField(class_="form-select") }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Sort -->
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="block tools sort">
+                <div class="header">
+                    <span>Sắp xếp</span>
+                </div>
+                <div class="content">
+                    <form action="{{ url_for('customerList') }}" method="GET">
+                        <table>
+                            <tr>
+                                <td class="label">
+                                    <div class="form-group">
+                                        <label>Sắp xếp theo</label>
+                                    </div>
+                                </td>
+                                <td class="label">
+                                    <div class="form-group">
+                                        <label>Thứ tự</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="field">
+                                    <div class="form-group">
+                                        {{ sortForm.sortByField(class_="form-select") }}
+                                    </div>
+                                </td>
+                                <td class="field">
+                                    <div class="form-group">
+                                        {{ sortForm.sortOrder(class_="form-select") }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <button type="submit" class="btn btn-success">Sắp xếp</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Customer list -->
+        {% if customers is not none %}
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="block list">
+                    <div class="header">
+                        <div class="container-fluid justify-contents-center">
+                            <div class="row align-self-center">
+                                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 justify-contents-center">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <!-- Determining if first page button should be disabled -->
+                                            {% if sortForm.page.data == 1 %}
+                                                {% set firstPageState = "disabled" %}
+                                            {% endif %}
+                                            <li class="page-item {{ firstPageState }}">
+                                                <a class="page-link" href="{{ url_for('customerList', page=1, sortByField=sortForm.sortByField.data, sortOrder=sortForm.sortOrder.data) }}">
+                                                    Trang đầu
+                                                </a>
+                                            </li>
+                                            <!-- Determining button count in large screen -->
+                                            {% set largeCount = 5 %}
+                                            {% if pageCount >= largeCount %}
+                                                {% if sortForm.page.data - largeCount // 2 < 1 %}
+                                                    {% set largeStartingPage = 1 %}
+                                                    {% set largeEndingPage = largeStartingPage + (largeCount - 1) %}
+                                                {% elif sortForm.page.data + largeCount // 2 > pageCount %}
+                                                    {% set largeEndingPage = pageCount %}
+                                                    {% set largeStartingPage = largeEndingPage - (largeCount - 1) %}
+                                                {% else %}
+                                                    {% set largeStartingPage = sortForm.page.data - largeCount // 2 %}
+                                                    {% set largeEndingPage = sortForm.page.data + largeCount // 2 %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% set largeStartingPage = 1 %}
+                                                {% set largeEndingPage = pageCount %}
+                                            {% endif %}
+                                            <!-- Determining button count in small screen -->
+                                            {% set smallCount = 3 %}     
+                                            {% if pageCount >= smallCount %}
+                                                {% if sortForm.page.data - smallCount // 2 < 1 %}
+                                                    {% set smallStartingPage = 1 %}
+                                                    {% set smallEndingPage = smallStartingPage + (smallCount - 1) %}
+                                                {% elif sortForm.page.data + smallCount // 2 > pageCount %}
+                                                    {% set smallEndingPage = pageCount %}
+                                                    {% set smallStartingPage = smallEndingPage - (smallCount - 1) %}
+                                                {% else %}
+                                                    {% set smallStartingPage = sortForm.page.data - smallCount // 2 %}
+                                                    {% set smallEndingPage = sortForm.page.data + smallCount // 2 %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% set smallStartingPage = 1 %}
+                                                {% set smallEndingPage = pageCount %}
+                                            {% endif %}
+                                            {% for i in range(largeStartingPage, largeEndingPage + 1) %}
+                                                {% if i == sortForm.page.data %}
+                                                    {% set active = "active" %}
+                                                {% endif %}
+                                                {% if i < smallStartingPage or i > smallEndingPage %}
+                                                    {% set hiddenInSmallScreen = "hidden-in-small-screen" %}
+                                                {% endif %}
+                                                <li class="page-item {{ active }}">
+                                                    <a class="page-link {{ hiddenInSmallScreen }}"
+                                                        href="{{ url_for('customerList', page=i, sortByField=sortForm.sortByField.data, sortOrder=sortForm.sortOrder.data) }}">
+                                                            {{ i }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                            <!-- Determining of the last page button should be disabled -->
+                                            {% if sortForm.page.data == pageCount %}
+                                                {% set lastPageState = "disabled" %}
+                                            {% endif %}
+                                            <li class="page-item {{ lastPageState }}">
+                                                <a class="page-link"
+                                                    href="{{ url_for('customerList', page=pageCount, sortByField=sortForm.sortByField.data, sortOrder=sortForm.sortOrder.data) }}">
+                                                    Trang cuối
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <table cellspacing="0">
+                            {% for customer in customers %}
+                                {% if loop.index0 % 2 == 0 %}
+                                    {% set rowName = "row1" %}
+                                {% else %}
+                                    {% set rowName = "row2" %}
+                                {% endif %}
+                                <tr class="{{ rowName }}">
+                                    <a href="google.com">
+                                        {% if customer.sex == "Nam" %}
+                                            {% set sexType = "male" %}
+                                        {% elif customer.sex == "Nữ" %}
+                                            {% set sexType = "female" %}
+                                        {% endif %}
+                                        <td class="profile-picture">
+                                            {% if customer.profilePicture is not none %}
+                                                <a href="{{ url_for('customerProfile', customerID=customer.id) }}" class="{{ sexType }}">
+                                                    <img src="data:image/jpeg;base64,{{ customer.profilePicture.content }}">
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ url_for('customerProfile', customerID=customer.id) }}" class="{{ sexType }}">
+                                                    <img src="{{ url_for('static', filename='profile_pictures/default.png') }}">
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                        <td class="name">
+                                            <a href="{{ url_for('customerProfile', customerID=customer.id) }}" class="{{ sexType }}">
+                                                <span class="fullname">{{ customer.fullName }}</span>
+                                            </a><br/>
+                                            {% if customer.nickName != "" %}
+                                                <span class="nickname">{{ customer.nickName }}<br/></span>
+                                            {% endif %}
+                                            <span class="birthday">{{ customer.birthday }}</span>
+                                        </td>
+                                        <td class="personal-info-label" align="right">
+                                            Giới tính<br/>
+                                            Sinh nhật<br/>
+                                            Số điện thoại
+                                        </td>
+                                        <td class="personal-info" align="left">
+                                            <span class="sex {{ sexType }}">{{ customer.sex }}</span><br/>
+                                            {{ customer.birthday.strftime('%d-%m-%Y') }}<br/>
+                                            {{ customer.phone }}
+                                        </td>
+                                    </a>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="footer">
+                        <div class="container-fluid justify-contents-center">
+                            <div class="row align-self-center">
+                                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 justify-contents-center">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <!-- Determining if first page button should be disabled -->
+                                            {% if sortForm.page.data == 1 %}
+                                                {% set firstPageState = "disabled" %}
+                                            {% endif %}
+                                            <li class="page-item {{ firstPageState }}">
+                                                <a class="page-link" href="{{ url_for('customerList', page=1, sortByField=sortForm.sortByField.data, sortOrder=sortForm.sortOrder.data) }}">
+                                                    Trang đầu
+                                                </a>
+                                            </li>
+                                            <!-- Determining button count in large screen -->
+                                            {% set largeCount = 5 %}
+                                            {% if pageCount >= largeCount %}
+                                                {% if sortForm.page.data - largeCount // 2 < 1 %}
+                                                    {% set largeStartingPage = 1 %}
+                                                    {% set largeEndingPage = largeStartingPage + (largeCount - 1) %}
+                                                {% elif sortForm.page.data + largeCount // 2 > pageCount %}
+                                                    {% set largeEndingPage = pageCount %}
+                                                    {% set largeStartingPage = largeEndingPage - (largeCount - 1) %}
+                                                {% else %}
+                                                    {% set largeStartingPage = sortForm.page.data - largeCount // 2 %}
+                                                    {% set largeEndingPage = sortForm.page.data + largeCount // 2 %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% set largeStartingPage = 1 %}
+                                                {% set largeEndingPage = pageCount %}
+                                            {% endif %}
+                                            <!-- Determining button count in small screen -->
+                                            {% set smallCount = 3 %}     
+                                            {% if pageCount >= smallCount %}
+                                                {% if sortForm.page.data - smallCount // 2 < 1 %}
+                                                    {% set smallStartingPage = 1 %}
+                                                    {% set smallEndingPage = smallStartingPage + (smallCount - 1) %}
+                                                {% elif sortForm.page.data + smallCount // 2 > pageCount %}
+                                                    {% set smallEndingPage = pageCount %}
+                                                    {% set smallStartingPage = smallEndingPage - (smallCount - 1) %}
+                                                {% else %}
+                                                    {% set smallStartingPage = sortForm.page.data - smallCount // 2 %}
+                                                    {% set smallEndingPage = sortForm.page.data + smallCount // 2 %}
+                                                {% endif %}
+                                            {% else %}
+                                                {% set smallStartingPage = 1 %}
+                                                {% set smallEndingPage = pageCount %}
+                                            {% endif %}
+                                            {% for i in range(largeStartingPage, largeEndingPage + 1) %}
+                                                {% if i == sortForm.page.data %}
+                                                    {% set active = "active" %}
+                                                {% endif %}
+                                                {% if i < smallStartingPage or i > smallEndingPage %}
+                                                    {% set hiddenInSmallScreen = "hidden-in-small-screen" %}
+                                                {% endif %}
+                                                <li class="page-item {{ active }}">
+                                                    <a class="page-link {{ hiddenInSmallScreen }}"
+                                                        href="{{ url_for('customerList', page=i, sortByField=sortForm.sortByField.data, sortOrder=sortForm.sortOrder.data) }}">
+                                                            {{ i }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                            <!-- Determining of the last page button should be disabled -->
+                                            {% if sortForm.page.data == pageCount %}
+                                                {% set lastPageState = "disabled" %}
+                                            {% endif %}
+                                            <li class="page-item {{ lastPageState }}">
+                                                <a class="page-link"
+                                                    href="{{ url_for('customerList', page=pageCount, sortByField=sortForm.sortByField.data, sortOrder=sortForm.sortOrder.data) }}">
+                                                    Trang cuối
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

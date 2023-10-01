@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='css/photo.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row no-gutters justify-content-center align-items-center">
+            <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                <div class="block photo-list">
+                    <div class="container-fluid">
+                        <div class="row gx-2 gy-2 justify-content-center">
+                            {% if photos|length == 0 %}
+                                <span>Không có ảnh</span>
+                            {% else %}
+                                {% for photoID, photoData in photos.items() %}
+                                <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
+                                    <a href="{{ url_for('photo', photoID = photoID) }}">
+                                        <img class="photo-box"
+                                            src="data:image/jpeg;base64,{{ photoData.content }}"
+                                            alt="Photo ID {{ photoID }}">
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

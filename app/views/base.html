@@ -1,0 +1,242 @@
+<html>
+    <head>
+        <title>NATSInternal - My Application</title>
+        <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        {% block styles %}{% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="mobile-navigation-bar">
+            <a href="{{ url_for('home') }}">
+                <img class="mobile-logo"
+                    src="{{ url_for('static', filename='images/navigation-bar/NATSLogo_white_bg.png')}}">
+                <span class="app-name">NATSInternal</span>
+            </a>
+            <div class="toggle-button">
+                <img src="{{ url_for('static', filename='images/navigation-bar/down_arrow.svg') }}">
+            </div>
+        </div>
+        <div class="container-xl p-0">
+            <!-- Sidebar -->
+            <div class="row container-fluid no-gutters justify-content-center p-0 m-0">
+                <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-12 p-0 d-none d-sm-none d-md-none d-lg-block d-xl-block navigation-bar-column">
+                    <div id="navigation-bar">
+                        <div class="logo_container">
+                            <a href="{{ url_for('home') }}">
+                                <img class="logo"
+                                    src="{{ url_for('static', filename='images/navigation-bar/NATSLogo_white_bg.png')}}">
+                                <div class="app_name">NATSInternal</div>
+                            </a>
+                            <button id="toggle_button">
+                                <img src="{{ url_for('static', filename='images/navigation-bar/down_arrow.svg') }}">
+                            </button>
+                        </div>
+                        <ul class="menu">
+                            <a href="{{ url_for('home') }}">
+                                <li class="{% if navigationBarSelected == 'home' %}selected{% endif %}">
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/home.png') }}">
+                                    <span>Trang chủ</span>
+                                </li>
+                            </a>
+                            <a href="{{ url_for('home') }}">
+                                <li>
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/orders.png') }}">
+                                    <span>Đơn hàng</span>
+                                </li>
+                            </a>
+                            <a href="{{ url_for('home') }}">
+                                <li>
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/stock.png') }}">
+                                    <span>Kho hàng</span>
+                                </li>
+                            </a>
+                            <a href="{{ url_for('home') }}">
+                                <li>
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/finance.png') }}">
+                                    <span>Tài chính</span>
+                                </li>
+                            </a>
+                            <a href="{{ url_for('home') }}">
+                                <li>
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/treatment.png') }}">
+                                    <span>Liệu trình</span>
+                                </li>
+                            </a>
+                            <a href="{{ url_for('customerStatistics') }}">
+                                <li class="{% if navigationBarSelected == 'customers' %}selected{% endif %}">
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/customer.png') }}">
+                                    <span>Khách hàng</span>
+                                </li>
+                            </a>
+                            <a href="{{ url_for('photos') }}">
+                                <li class="{% if navigationBarSelected == 'photos' %}selected{% endif %}">
+                                    <img src="{{ url_for('static', filename='images/navigation-bar/data.png') }}">
+                                    <span>Dữ liệu</span>
+                                </li>
+                            </a>
+                        </ul>
+                        <ul class="personal-menu">
+                            <span class="menu-label">Cá nhân</span>
+                            <li class="{% if navigationBarSelected == 'profile' %}selected{% endif %}">
+                                <a href="{{ url_for('user', userID = requestedUser.id) }}">
+                                    <img src="{{ url_for('static', filename='images/sidebar/profile.png')}}">
+                                    <span>Trang cá nhân</span>
+                                </a>
+                            </li>
+                            <li class="{% if navigationBarSelected == 'password' %}selected{% endif %}">
+                                <a href="#">
+                                    <img src="{{ url_for('static', filename='images/sidebar/password.png')}}">
+                                    <span>Đổi mật khẩu</span>
+                                </a>
+                            </li>
+                            <li class="{% if navigationBarSelected == 'permissions' %}selected{% endif %}">
+                                <a href="#">
+                                    <img src="{{ url_for('static', filename='images/sidebar/permission.png')}}">
+                                    <span>Quyền hạn</span>
+                                </a>
+                            </li>
+                            <li class="{% if navigationBarSelected == 'requests' %}selected{% endif %}">
+                                <a href="#">
+                                    <img src="{{ url_for('static', filename='images/sidebar/request.png')}}">
+                                    <span>Yêu cầu</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('logout') }}">
+                                    <img src="{{ url_for('static', filename='images/sidebar/logout.png')}}">
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col content-column">
+                    {% if announcements|length > 0 %}
+                        <div id="announcement">
+                            {% for announcement in announcements %}
+                                {% if announcement.categoryName == "Announcement" %}
+                                    {% set alertType = "alert-primary" %}
+                                {% elif announcement.categoryName == "News" %}
+                                    {% set alertType = "alert-success" %}
+                                {% else %}
+                                    {% set alertType = "alert-warning" %}
+                                {% endif %}
+                                <div class="announcement-block alert {{ alertType }}">
+                                    <strong>{{ announcement.category }}</strong>: {{ announcement.title }}<br/>
+                                    <p class="content">{{ announcement.content }}</p>
+                                    <span class="fullName">
+                                        <strong>
+                                            <a href="{{ url_for('user', userID = announcement.userID) }}">
+                                                {{ announcement.fullName }}
+                                            </a>
+                                        </strong> 
+                                        ({{ announcement.timeDelta }})
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Breadcrumb -->
+                    <div id="breadcrumb">
+                        <span><strong>Trang chủ</strong></span>
+                        {% for item in breadcrumb %}
+                             ＞ <span>{{ item }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Content area -->
+                    <div id="content">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                <!-- Sidebar -->
+                <div class="col col-xl-auto col-lg-auto d-none col-md-auto d-sm-none d-md-none d-lg-none d-xl-block p-0 sidebar-column">
+                    <div id="sidebar">
+                        <div class="profile">
+                            {% if requestedUser.profilePicture is none %}
+                                <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}"><br/>
+                            {% else %}
+                                <img class="profile-picture" src="data:image/jpeg;base64,{{ requestedUser.profilePicture }}"><br/>
+                            {% endif %}
+                            <a href="{{ url_for('user', userID = requestedUser.id) }}">
+                                <span class="fullname">
+                                    {{ requestedUser.fullName }}
+                                </span>
+                            </a><br/>
+                            <span class="username">@{{ requestedUser.userName}}</span><br/>
+                            <div class="position-container">
+                                {% for role in requestedUser.roles %}
+                                    {% if role == "Nhà phát triển" %}
+                                        {% set className = "developer" %}
+                                    {% elif role == "Thành viên gia đình" %}
+                                        {% set className = "family" %}
+                                    {% elif role == "Giám đốc" %}
+                                        {% set className = "owner" %}
+                                    {% elif role == "Quản lý" %}
+                                        {% set className = "manager" %}
+                                    {% elif role == "Thu ngân" %}
+                                        {% set className = "cashier" %}
+                                    {% elif role == "Kế toán" %}
+                                        {% set className = "accountant" %}
+                                    {% elif role == "Nhân viên" %}
+                                        {% set className = "staff" %}
+                                    {% elif role == "Cộng tác viên" %}
+                                        {% set className = "colaborator" %}
+                                    {% endif %}
+                                    <span class="position-tag {{ className }}">
+                                        {{ role }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="notification">
+                            {% if notifications|length != 0 %}
+                                {% for notification in notifications %}
+                                    {% if notification.isRead %}
+                                        {% set alertType = "alert-secondary" %}
+                                    {% else %}
+                                        {% set alertType = "alert-primary" %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <span>Bạn không có thông báo cá nhân mới</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <script>
+            window.addEventListener("scroll", function() {
+                if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
+                  document.getElementById("navigation-bar").style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.05)";
+                } else {
+                  document.getElementById("navigation-bar").style.boxShadow = "none";
+                }
+              });
+        </script> -->
+
+        <!-- Sidebar button action on mobile -->
+        <script>
+            const toggleButton = document.getElementById('toggle_button');
+            const toggleButtonImage = document.querySelector('#navigation-bar .logo_container #toggle_button img');
+            const sideBar = document.getElementById('navigation-bar');
+            let isOpen = false;
+            
+            toggleButton.addEventListener('click', () => {
+                isOpen = !isOpen;
+                if (isOpen) {
+                    toggleButtonImage.classList.add('rotated')
+                    sideBar.classList.add('open');
+                } else {
+                    toggleButtonImage.classList.remove('rotated')
+                    sideBar.classList.remove('open');
+                }
+            });
+        </script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    </body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='css/photo.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row no-gutters justify-content-center align-items-center">
+            <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <img class="photo-box" src="data:image/jpeg;base64,{{ photo.content }}">
+            </div>
+        </div>
+    </div>
+{% endblock %}

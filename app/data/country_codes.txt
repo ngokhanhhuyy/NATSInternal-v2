@@ -1,0 +1,249 @@
+ABW  Aruba
+AFG  Afghanistan
+AGO  Angola
+AIA  Anguilla
+ALA  Quần đảo Åland
+ALB  Albania
+AND  Andorra
+ARE  CTVQ Ả Rập Thống nhất
+ARG  Argentina
+ARM  Armenia
+ASM  Samoa thuộc Mỹ
+ATA  Nam Cực
+ATF  Các vùng lãnh thổ phía Nam (Pháp)
+ATG  Antigua và Barbuda
+AUS  Úc
+AUT  Áo
+AZE  Azerbaijan
+BDI  Burundi
+BEL  Bỉ
+BEN  Bénin
+BES  Bonaire, Sint Eustatius và Saba
+BFA  Burkina Faso
+BGD  Bangladesh
+BGR  Bulgaria
+BHR  Bahrain
+BHS  Bahamas
+BIH  Bosna và Hercegovina
+BLM  Saint-Barthélemy
+BLR  Belarus
+BLZ  Belize
+BMU  Bermuda
+BOL  Bolivia
+BRA  Brasil
+BRB  Barbados
+BRN  Brunei
+BTN  Bhutan
+BVT  Đảo Bouvet
+BWA  Botswana
+CAF  Cộng hòa Trung Phi
+CAN  Canada
+CCK  Quần đảo Cocos (Keeling)
+CHE  Thụy Sĩ
+CHL  Chile
+CHN  Trung Quốc
+CIV  Bờ Biển Ngà
+CMR  Cameroon
+COD  Cộng hòa Dân chủ Congo
+COG  Cộng hòa Congo
+COK  Quần đảo Cook
+COL  Colombia
+COM  Comoros
+CPV  Cabo Verde
+CRI  Costa Rica
+CUB  Cuba
+CUW  Curaçao
+CXR  Đảo Giáng Sinh
+CYM  Quần đảo Cayman
+CYP  Síp
+CZE  Cộng hòa Séc
+DEU  Đức
+DJI  Djibouti
+DMA  Dominica
+DNK  Đan Mạch
+DOM  Cộng hòa Dominica
+DZA  Algérie
+ECU  Ecuador
+EGY  Ai Cập
+ERI  Eritrea
+ESH  Tây Sahara
+ESP  Tây Ban Nha
+EST  Estonia
+ETH  Ethiopia
+FIN  Phần Lan
+FJI  Fiji
+FLK  Quần đảo Falkland
+FRA  Pháp
+FRO  Quần đảo Faroe
+FSM  Liên bang Micronesia
+GAB  Gabon
+GBR  Anh Quốc
+GEO  Gruzia
+GGY  Guernsey
+GHA  Ghana
+GIB  Gibraltar
+GIN  Guinée
+GLP  Guadeloupe
+GMB  Gambia
+GNB  Guiné-Bissau
+GNQ  Guinea Xích Đạo
+GRC  Hy Lạp
+GRD  Grenada
+GRL  Greenland
+GTM  Guatemala
+GUF  Guyane thuộc Pháp
+GUM  Guam
+GUY  Guyana
+HKG  Hồng Kông
+HMD  Đảo Heard và quần đảo McDonald
+HND  Honduras
+HRV  Croatia
+HTI  Haiti
+HUN  Hungary
+IDN  Indonesia
+IMN  Đảo Man
+IND  Ấn Độ
+IOT  Lãnh thổ Ấn Độ Dương thuộc Anh
+IRL  Cộng hòa Ireland
+IRN  Iran
+IRQ  Iraq
+ISL  Iceland
+ISR  Israel
+ITA  Ý
+JAM  Jamaica
+JEY  Jersey
+JOR  Jordan
+JPN  Nhật Bản
+KAZ  Kazakhstan
+KEN  Kenya
+KGZ  Kyrgyzstan
+KHM  Campuchia
+KIR  Kiribati
+KNA  Saint Kitts và Nevis
+KOR  Hàn Quốc
+KWT  Kuwait
+LAO  Lào
+LBN  Liban
+LBR  Liberia
+LBY  Libya
+LCA  Saint Lucia
+LIE  Liechtenstein
+LKA  Sri Lanka
+LSO  Lesotho
+LTU  Litva
+LUX  Luxembourg
+LVA  Latvia
+MAC  Ma Cao
+MAF  Saint-Martin
+MAR  Maroc
+MCO  Monaco
+MDA  Moldova
+MDG  Madagascar
+MDV  Maldives
+MEX  México
+MHL  Quần đảo Marshall
+MKD  Bắc Macedonia
+MLI  Mali
+MLT  Malta
+MMR  Myanmar
+MNE  Montenegro
+MNG  Mông Cổ
+MNP  Quần đảo Bắc Mariana
+MOZ  Mozambique
+MRT  Mauritanie
+MSR  Montserrat
+MTQ  Martinique
+MUS  Mauritius
+MWI  Malawi
+MYS  Malaysia
+MYT  Mayotte
+NAM  Namibia
+NCL  Nouvelle-Calédonie
+NER  Niger
+NFK  Đảo Norfolk
+NGA  Nigeria
+NIC  Nicaragua
+NIU  Niue
+NLD  Hà Lan
+NOR  Na Uy
+NPL  Nepal
+NRU  Nauru
+NZL  New Zealand
+OMN  Oman
+PAK  Pakistan
+PAN  Panama
+PCN  Quần đảo Pitcairn
+PER  Peru
+PHL  Philippines
+PLW  Palau
+PNG  Papua New Guinea
+POL  Ba Lan
+PRI  Puerto Rico
+PRK  Bắc Triều Tiên
+PRT  Bồ Đào Nha
+PRY  Paraguay
+PSE  Palestine
+PYF  Polynésie thuộc Pháp
+QAT  Qatar
+REU  Réunion
+ROU  România
+RUS  Nga
+RWA  Rwanda
+SAU  Ả Rập Xê Út
+SDN  Sudan
+SEN  Sénégal
+SGP  Singapore
+SGS  Nam Georgia và Q.đ. Nam Sandwich
+SHN  Saint Helena, Ascension và T.d.C.
+SJM  Svalbard và Jan Mayen
+SLB  Quần đảo Solomon
+SLE  Sierra Leone
+SLV  El Salvador
+SMR  San Marino
+SOM  Somalia
+SPM  Saint-Pierre và Miquelon
+SRB  Serbia
+SSD  Nam Sudan
+STP  São Tomé và Príncipe
+SUR  Suriname
+SVK  Slovakia
+SVN  Slovenia
+SWE  Thụy Điển
+SWZ  Eswatini
+SXM  Sint Maarten
+SYC  Seychelles
+SYR  Syria
+TCA  Quần đảo Turks và Caicos
+TCD  Tchad
+TGO  Togo
+THA  Thái Lan
+TJK  Tajikistan
+TKL  Tokelau
+TKM  Turkmenistan
+TLS  Đông Timor
+TON  Tonga
+TTO  Trinidad và Tobago
+TUN  Tunisia
+TUR  Thổ Nhĩ Kỳ
+TUV  Tuvalu
+TWN  Đài Loan
+TZA  Tanzania
+UGA  Uganda
+UKR  Ukraina
+UMI  Các tiểu đảo xa của Hoa Kỳ
+URY  Uruguay
+USA  Hoa Kỳ
+UZB  Uzbekistan
+VAT  Thành Vatican
+VCT  Saint Vincent và Grenadines
+VEN  Venezuela
+VGB  Quần đảo Virgin thuộc Anh
+VIR  Quần đảo Virgin thuộc Mỹ
+VNM  Việt Nam
+VUT  Vanuatu
+WLF  Wallis và Futuna
+WSM  Samoa
+YEM  Yemen
+ZAF  Cộng hòa Nam Phi
+ZMB  Zambia
+ZWE  Zimbabwe
