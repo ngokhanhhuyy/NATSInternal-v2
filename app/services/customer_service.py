@@ -108,7 +108,6 @@ class CustomerService:
             .select_from(Customer)
         ).one()
         # Get all customers
-        startedTime = time()
         customers = session.scalars(
             select(Customer)
             .options(joinedload(Customer.photos))
@@ -116,11 +115,8 @@ class CustomerService:
             .limit(15)
             .offset((page - 1) * 15 if page is not None else 0)
         ).unique().all()
-        print(time() - startedTime)
-        startedTime = time()
         customersResult = []
         for customer in customers:
-            startedTime = time()
             customersResult.append(CustomerInfoResult(
                 id = customer.id,
                 fullName = customer.fullName,
@@ -134,7 +130,6 @@ class CustomerService:
                     content = customer.profilePicture.contentDecoded
                 ) if customer.profilePicture is not None else None
             ))
-            print(time() - startedTime)
         result = CustomersResult(
             pageCount = customerCount // 15,
             customers=customersResult
