@@ -78,9 +78,7 @@ def getDatabaseSession() -> Session:
 @application.teardown_appcontext
 def destroyingDatabaseSession(exception: Exception = None):
     """Destroying existing database session when the request - response circle ended."""
-    databaseSession: scoped_session[Session] | None = requestContext.pop("databaseSession", None)
-    if databaseSession is not None:
-        databaseSession.close_all()
+    ScopeSession.remove()
 
 @contextmanager
 def getTemporaryDatabaseSession() -> Generator[Session, None, None]:
