@@ -30,11 +30,6 @@ from faker import Faker
 from random import choice, randrange, uniform
 from vn_fullname_generator import generator
 import secrets
-import requests
-import cairosvg
-from PIL import Image
-import uuid
-from io import BytesIO
 from datetime import date, datetime, timedelta, time
 from dateutil.relativedelta import relativedelta
 from typing import List, Dict, TypedDict
