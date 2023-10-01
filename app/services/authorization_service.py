@@ -16,39 +16,25 @@ def permissionRequired(permissionName: str) -> Response:
         @wraps(function)
         def wrapper(*args: Any, **kwargs: Any):
             requestedUser: User = requestContext.requestedUser
-            session = getDatabaseSession()
-            rolePermissionStatement = (
-                select(RolePermission.approvalRequired)
-                .join(User.roles)
-                .join(Role.rolePermissions)
-                .join(RolePermission.permission)
-                .where(
-                    and_(
-                        User.id == requestedUser.id,
-                        Permission.name == permissionName
-                    )
-                )
-            )
-            userPermissionStatement = (
-                select(UserPermission.approvalRequired)
-                .join(User.userPermissions)
-                .join(UserPermission.permission)
-                .where(
-                    and_(
-                        User.id == requestedUser.id,
-                        Permission.name == permissionName
-                    )
-                )
-            )
-            approvalRequired: bool | None = session.scalars(
-                union_all(
-                    rolePermissionStatement,
-                    userPermissionStatement)
-                ).first()
-            if approvalRequired is not None:
-                if approvalRequired:
+            rolePermissionObject: RolePermission = None
+            for role in requestedUser.roles:
+                for rolePermission in role.rolePermissions:
+                    if rolePermission.permission.name == permissionName:
+                        rolePermissionObject = rolePermission
+                        break
+            if rolePermissionObject is not None:
+                if rolePermissionObject.approvalRequired:
                     return "This action needs to be approved by manager before being performed."
                 return function(*args, **kwargs)
-            abort(404)
+            userPermissionObject: UserPermission = None
+            for userPermission in requestedUser.userPermissions:
+                if userPermission.permission.name == permissionName:
+                    userPermissionObject = userPermission
+                    break
+            if userPermissionObject is not None:
+                if userPermissionObject.approvalRequired:
+                    return "This action needs to be approved by manager before being performed."
+                return function(*args, **kwargs)
+            abort(403)
         return wrapper
     return decorator
