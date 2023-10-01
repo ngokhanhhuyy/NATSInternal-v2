@@ -59,7 +59,6 @@ def initializeDatabase():
 
 def getDatabaseSession() -> Session:
     session: Session = requestContext.databaseSession
-    print(id(session))
     return session
 
 @application.before_request
