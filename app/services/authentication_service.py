@@ -104,11 +104,10 @@ def loginRequired(function: Callable[..., Response]) -> Response:
             return redirect(url_for("login"))
         user = session.scalars(
             select(User)
+            .join(User.session)
             .options(
                 joinedload(User.userPermissions).joinedload(UserPermission.permission),
                 joinedload(User.roles).joinedload(Role.rolePermissions).joinedload(RolePermission.permission),
-                joinedload(User.session),
-                joinedload(User.activities),
                 joinedload(User.photos)
             ).where(
                 and_(
