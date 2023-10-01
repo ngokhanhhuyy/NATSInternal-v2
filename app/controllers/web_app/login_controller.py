@@ -5,7 +5,8 @@ from app import application
 from app.services.authentication_service import AuthenticationService, loginRequired
 from app.forms import LoginFormModel
 from app.errors import AuthenticationError
-from app.config import configurations
+from app.config import Config
+from typing import List
 
 @application.route("/login", methods=["GET", "POST"])
 def login():
@@ -16,12 +17,12 @@ def login():
         return redirect(url_for("home"))
     
     # Perform login operation
-    messages: list = []
+    messages: List[str] = []
     form = LoginFormModel(request.form)
     if request.method == "GET":
         return render_template(
             "login.html",
-            title=configurations["applicationName"],
+            title=Config.APP_NAME,
             form=form,
             messages=None)
     else:
@@ -44,7 +45,7 @@ def login():
             messages += list(form.userName.errors) + list(form.password.errors)
         return render_template(
             "login.html",
-            title=configurations["applicationName"],
+            title=Config.APP_NAME,
             form=form,
             messages=messages)
 

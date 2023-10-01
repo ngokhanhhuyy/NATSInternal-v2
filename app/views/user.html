@@ -13,37 +13,37 @@
                         <div class="row container no-gutters">
                             <div class="col col-sm-auto col-md-auto col-lg-auto col-xl-auto profile-picture-column p-0">
                                 {% if user.profilePicture is not none %}
-                                    <img class="profile-picture" src="data:image/jpeg;base64,{{ user.profilePicture }}">
+                                    <img class="profile-picture" src="data:image/jpeg;base64,{{ user.profilePicture.content }}">
                                 {% else %}
                                     <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}">
                                 {% endif %}
                             </div>
                             <div class="col">
-                                <span class="fullname">{{ user.fullName}}</span><br/>
+                                <span class="fullname">{{ user.fullName }}</span><br/>
                                 <span class="username">@{{ user.userName }}</span><br/>
                                 <div class="position-container">
-                                    {% for role in user.roles.values() %}
-                                        {% if role == 'Nhà phát triển' %}
+                                    {% for role in user.roles %}
+                                        {% if role.name == 'Nhà phát triển' %}
                                             {% set className = 'developer' %}
-                                        {% elif role == 'Giám đốc' %}
+                                        {% elif role.name == 'Giám đốc' %}
                                             {% set className = 'owner' %}
-                                        {% elif role == 'Thành viên gia đình' %}
+                                        {% elif role.name == 'Thành viên gia đình' %}
                                             {% set className = 'family-member' %}
-                                        {% elif role == 'Quản lý' %}
+                                        {% elif role.name == 'Quản lý' %}
                                             {% set className = 'manager' %}
-                                        {% elif role == 'Kế toán' %}
+                                        {% elif role.name == 'Kế toán' %}
                                             {% set className = 'accountant' %}
-                                        {% elif role == 'Thu ngân' %}
+                                        {% elif role.name == 'Thu ngân' %}
                                             {% set className = 'cashier' %}
-                                        {% elif role == 'Kế toán' %}
+                                        {% elif role.name == 'Kế toán' %}
                                             {% set className = 'accountant' %}
-                                        {% elif role == 'Nhân viên' %}
+                                        {% elif role.name == 'Nhân viên' %}
                                             {% set className = 'staff' %}
-                                        {% elif role == 'Cộng tác viên' %}
+                                        {% elif role.name == 'Cộng tác viên' %}
                                             {% set className = 'colaborator' %}
                                         {% endif %}
                                         <span class="position-tag {{ className }}">
-                                            {{ role }}
+                                            {{ role.name }}
                                         </span>
                                     {% endfor %}
                                 </div>
@@ -92,7 +92,7 @@
                     <table>
                         <tr>
                             <td class="label">Số căn cước</td>
-                            <td class="field">{{ user.idCardNumber if user.idCardNumber }}</td>
+                            <td class="field">{{ user.idCardNumber }}</td>
                         </tr>
                         <tr>
                             <td class="label">Ngày gia nhập</td>
@@ -211,10 +211,10 @@
                             {% if user.secondaryPhotos | length == 0 %}
                                 <span>Không có ảnh</span>
                             {% else %}
-                                {% for photoID, photoContent in user.secondaryPhotos.items() %}
+                                {% for photo in user.secondaryPhotos %}
                                 <div class="col col-xl-auto col-lg-auto col-md-auto col-sm-auto col-auto">
-                                    <a href="{{ url_for('photo', photoID = photoID) }}">
-                                        <img src="data:image/jpeg;base64,{{ photoContent }}">
+                                    <a href="{{ url_for('photo', photoID = photo.id) }}">
+                                        <img src="data:image/jpeg;base64,{{ photo.content }}">
                                     </a>
                                 </div>
                                 {% endfor %}

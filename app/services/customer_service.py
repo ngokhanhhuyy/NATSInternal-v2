@@ -348,7 +348,7 @@ class CustomerService:
         rows = session.execute(
             select(
                 text('"MonthYearSeries"."Month"'),
-                text('"TotalCustomerCount"."Count"')
+                func.coalesce(text('"TotalCustomerCount"."Count"'), 0)
             ).select_from(MonthYearSeriesQuery)
             .outerjoin(
                 newCustomerCountQuery,

@@ -1,9 +1,9 @@
 import pytz
 from datetime import datetime, date, timedelta
-from app.config import configurations
+from app.config import Config
 
 class Time:
-    __timeZone = pytz.timezone(configurations["timeZone"])
+    __timeZone = pytz.timezone(Config.TIME_ZONE)
 
     @classmethod
     def getCurrentDateTime(cls) -> datetime:

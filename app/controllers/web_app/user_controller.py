@@ -15,9 +15,9 @@ def userListPage():
 @loginRequired
 def userProfilePage(userID: int):
     try:
-        user = UserService.getUserByID(userID)
+        userResult = UserService.getUserByID(userID)
     except NotFoundError:
         abort(404)
     return render_template(
         "user.html",
-        user=user[userID])
+        user=userResult)

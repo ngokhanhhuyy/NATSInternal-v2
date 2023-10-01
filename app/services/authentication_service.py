@@ -5,7 +5,7 @@ from flask import request, jsonify, redirect, url_for, Response
 from flask import g as requestContext
 from flask import session as clientSession
 from typing import Dict
-from app.config import configurations
+from app.config import Config
 from app.data import getDatabaseSession
 from app.models.user import User
 from app.models.user_api_key import UserApiKey
@@ -33,7 +33,7 @@ def authenticationRequired(function: Callable[..., Response]) -> None:
             # Login by JWT Token
             if requestedString.find(bearerPrefix) == 0 and len(requestedString) > len(bearerPrefix):
                 jwtToken  = requestedString[len(bearerPrefix):]
-                secretKey = configurations["secretKey"]
+                secretKey = Config.SECRET_KEY
                 try:
                     jwtDecoded: Dict[str, str] = jwt.decode(jwtToken, key=secretKey, algorithms="HS256")
                     expirationTime = datetime.fromisoformat(jwtDecoded.get("expiration"))
@@ -172,7 +172,7 @@ class AuthenticationService:
                 "subject":          user.userName,
                 "expiration":       Time.getCurrentDateTime() + timedelta(hours=2)
             }
-            secretKey = configurations["secretKey"]
+            secretKey = Config.SECRET_KEY
             algorithm = "HS256"
             jwtToken = jwt.encode(payload=payload, key=secretKey, algorithm=algorithm)
             return jwtToken

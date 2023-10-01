@@ -1,15 +1,22 @@
+from app import application
 from flask import g as requestContext
 from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from sqlalchemy.sql import quoted_name
 from sqlalchemy import create_engine
 from app import application
-from app.config import configurations
+from app.config import DevelopmentConfig, ProductionConfig
 from contextlib import contextmanager
+import os
 from typing import Type, Generator
 
-# Determine database path
-databaseURI = configurations["databaseURI"]
+# Determine database connection string
+if os.getenv("FLASK_ENV") == "development":
+    databaseURI = DevelopmentConfig.SQLALCHEMY_DATABASE_URI
+elif os.getenv("FLASK_ENV") == "production":
+    databaseURI = ProductionConfig.SQLALCHEMY_DATABASE_URI
+else:
+    raise ValueError("FLASK_ENV variable value is invalid.")
 # Create a session
 engine = create_engine(
     databaseURI,

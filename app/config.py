@@ -1,36 +1,28 @@
-databaseConfigurationNEONTECT = {
-    "host":                 "ep-wandering-hat-558903-pooler.ap-southeast-1.aws.neon.tech",
-    "port":                 "5432",
-    "database":             "neondb",
-    "user":                 "ngokhanhhuyy",
-    "password":             "ABZktC6vh5UJ"            
-}
-databaseConfiguration = {
+localDBConfig = {
     "host":                 "localhost",
     "port":                 "5432",
     "database":             "NATSInternal",
     "user":                 "postgres",
     "password":             "f.t0rres"
 }
-localDatabaseURI =  f"postgresql://{databaseConfiguration['user']}:{databaseConfiguration['password']}" \
-                                        f"@{databaseConfiguration['host']}:{databaseConfiguration['port']}/" \
-                                        f"{databaseConfiguration['database']}"
 
-# NeoTect
-# databaseConfiguration["databaseURI"] = "postgresql://ngokhanhhuyy:ABZktC6vh5UJ@ep-wandering-hat-558903.ap-southeast-1.aws.neon.tech/neondb"
-# Railway
-railwayDatabaseURI= "postgresql://postgres:DMPu5pwzkSYbOFqKGPhf@containers-us-west-119.railway.app:7614/railway"
-sqliteDatabaseURL = 'sqlite:///app/data/database.db'
+class Config:
+    DEBUG = False
+    APP_NAME = "NATSInternal"
+    SECRET_KEY = "BackInBlackACDC"
+    LOGGING = True
+    CATCHING = True
+    EMAIL = ""
+    UPLOAD_FOLDER = "./app/static/upload"
+    JSON_SORT_KEYS = False
+    SESSION_PERMANENT = False
+    SESSION_TYPE = "filesystem"
+    TIME_ZONE = "Asia/Ho_Chi_Minh"
 
-configurations = {
-    "debug":                True,
-    "applicationName":      "NATSInternal",
-    "secretKey":            "BackInBlackACDC",
-    "databaseURI":          railwayDatabaseURI,
-    "logging":              None,
-    "catching":             None,
-    "email":                None,
-    "uploadFolder":         "./app/static/upload",
-    "maxContentLength":     None,
-    "timeZone":             "Asia/Ho_Chi_Minh"
-}
+class DevelopmentConfig(Config):
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{localDBConfig['user']}:{localDBConfig['password']}" \
+                                        f"@{localDBConfig['host']}:{localDBConfig['port']}/" \
+                                        f"{localDBConfig['database']}"
+    
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:DMPu5pwzkSYbOFqKGPhf@containers-us-west-119.railway.app:7614/railway"
