@@ -8,13 +8,166 @@
     </head>
     <body>
         <div id="mobile-navigation-bar">
-            <a href="{{ url_for('home') }}">
-                <img class="mobile-logo"
-                    src="{{ url_for('static', filename='images/navigation-bar/NATSLogo_white_bg.png')}}">
-                <span class="app-name">NATSInternal</span>
-            </a>
-            <div class="toggle-button">
-                <img src="{{ url_for('static', filename='images/navigation-bar/down_arrow.svg') }}">
+            <div class="logo-container">
+                <a href="{{ url_for('home') }}">
+                    <img class="mobile-logo"
+                        src="{{ url_for('static', filename='images/navigation-bar/NATSLogo_white_bg.png') }}">
+                    <span class="app-name">NATSInternal</span>
+                </a>
+                <div id="toggle-button">
+                    <img src="{{ url_for('static', filename='images/navigation-bar/down_arrow.svg') }}">
+                </div>
+            </div>
+            <div class="menu-container">
+                <table>
+                    <tr>
+                        <td class="empty"></td>
+                        <td width="90" height="90">
+                            <a href="{{ url_for('home') }}">
+                                <div class="item-button {% if navigationBarSelected == 'home' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/home.png') }}">
+                                    <span>Trang chủ</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty" width="15"></td>
+                        <td width="90" height="90">
+                            <a href="{{ url_for('home') }}">
+                                <div class="item-button {% if navigationBarSelected == 'orders' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/orders.png') }}">
+                                    <span>Đơn hàng</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty" width="20"></td>
+                        <td width="90" height="90">
+                            <a href="{{ url_for('home') }}">
+                                <div class="item-button {% if navigationBarSelected == 'stock' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/stock.png') }}">
+                                    <span>Kho hàng</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty"></td>
+                    </tr>
+                    <tr>
+                        <td class="empty" height="15"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                    </tr>
+                    <tr>
+                        <td class="empty"></td>
+                        <td>
+                            <a href="#">
+                                <div class="item-button {% if navigationBarSelected == 'finance' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/finance.png') }}">
+                                    <span>Tài chính</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty"></td>
+                        <td>
+                            <a href="#">
+                                <div class="item-button {% if navigationBarSelected == 'treatment' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/treatment.png') }}">
+                                    <span>Liệu trình</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty"></td>
+                        <td>
+                            <a href="{{ url_for('customerStatistics') }}">
+                                <div class="item-button customer {% if navigationBarSelected == 'customers' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/customer.png') }}">
+                                    <span>Khách hàng</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty"></td>
+                    </tr>
+                    <tr>
+                        <td class="empty" height="15"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                    </tr>
+                    <tr>
+                        <td class="empty"></td>
+                        <td>
+                            <a href="{{ url_for('photos') }}">
+                                <div class="item-button {% if navigationBarSelected == 'finance' %}selected{% endif %}">
+                                    <img class="icon" src="{{ url_for('static', filename='images/navigation-bar/data.png') }}">
+                                    <span>Dữ liệu</span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="personal-container">
+                <div class="profile-picture-container">
+                    {% if requestedUser.profilePicture is none %}
+                        <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}"><br/>
+                    {% else %}
+                        <img class="profile-picture" src="data:image/jpeg;base64,{{ requestedUser.profilePicture }}"><br/>
+                    {% endif %}
+                </div>
+                <span class="fullname">{{ requestedUser.fullName }}</span><br/>
+                <span class="username">@{{ requestedUser.userName }}</span><br/>
+                {% for role in requestedUser.roles %}
+                    {% if role == "Nhà phát triển" %}
+                        {% set className = "developer" %}
+                    {% elif role == "Thành viên gia đình" %}
+                        {% set className = "family" %}
+                    {% elif role == "Giám đốc" %}
+                        {% set className = "owner" %}
+                    {% elif role == "Quản lý" %}
+                        {% set className = "manager" %}
+                    {% elif role == "Thu ngân" %}
+                        {% set className = "cashier" %}
+                    {% elif role == "Kế toán" %}
+                        {% set className = "accountant" %}
+                    {% elif role == "Nhân viên" %}
+                        {% set className = "staff" %}
+                    {% elif role == "Cộng tác viên" %}
+                        {% set className = "colaborator" %}
+                    {% endif %}
+                    <span class="position-tag {{ className }}">
+                        {{ role }}
+                    </span><br/>
+                {% endfor %}
+                <table class="personal-menu">
+                    <tr>
+                        <td align="center">
+                            <a href="{{ url_for('userProfile', userID = requestedUser.id) }}">
+                                <div class="btn btn-primary w-100">Trang cá nhân</div>
+                            </a>
+                        </td>
+                        <td align="center">
+                            <a href="#">
+                                <div class="btn btn-success w-100">Đổi mật khẩu</div>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <a href="#">
+                                <div class="btn btn-warning w-100">Yêu cầu</div>
+                            </a>
+                        </td>
+                        <td align="center">
+                            <a href="{{ url_for('logout') }}">
+                                <div class="btn btn-danger w-100">Đăng xuất</div>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="container-xl p-0">
@@ -76,10 +229,10 @@
                                 </li>
                             </a>
                         </ul>
-                        <ul class="personal-menu">
+                        <!-- <ul class="personal-menu">
                             <span class="menu-label">Cá nhân</span>
                             <li class="{% if navigationBarSelected == 'profile' %}selected{% endif %}">
-                                <a href="{{ url_for('user', userID = requestedUser.id) }}">
+                                <a href="{{ url_for('userProfile', userID = requestedUser.id) }}">
                                     <img src="{{ url_for('static', filename='images/sidebar/profile.png')}}">
                                     <span>Trang cá nhân</span>
                                 </a>
@@ -108,7 +261,7 @@
                                     <span>Đăng xuất</span>
                                 </a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
                 <div class="col content-column">
@@ -127,7 +280,7 @@
                                     <p class="content">{{ announcement.content }}</p>
                                     <span class="fullName">
                                         <strong>
-                                            <a href="{{ url_for('user', userID = announcement.userID) }}">
+                                            <a href="{{ url_for('userProfile', userID = announcement.userID) }}">
                                                 {{ announcement.fullName }}
                                             </a>
                                         </strong> 
@@ -160,7 +313,7 @@
                             {% else %}
                                 <img class="profile-picture" src="data:image/jpeg;base64,{{ requestedUser.profilePicture }}"><br/>
                             {% endif %}
-                            <a href="{{ url_for('user', userID = requestedUser.id) }}">
+                            <a href="{{ url_for('userProfile', userID = requestedUser.id) }}">
                                 <span class="fullname">
                                     {{ requestedUser.fullName }}
                                 </span>
@@ -191,7 +344,21 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="notification">
+                        <div class="personal-menu">
+                            <a class="btn btn-outline-primary" href="{{ url_for('userProfile', userID = requestedUser.id) }}">
+                                Trang cá nhân
+                            </a>
+                            <a class="btn btn-outline-success" href="#">
+                                Đổi mật khẩu
+                            </a>
+                            <a class="btn btn-outline-warning" href="#">
+                                Yêu cầu
+                            </a>
+                            <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">
+                                Đăng xuất
+                            </a>
+                        </div>
+                        <!-- <div class="notification">
                             {% if notifications|length != 0 %}
                                 {% for notification in notifications %}
                                     {% if notification.isRead %}
@@ -203,7 +370,7 @@
                             {% else %}
                                 <span>Bạn không có thông báo cá nhân mới</span>
                             {% endif %}
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -221,19 +388,19 @@
 
         <!-- Sidebar button action on mobile -->
         <script>
-            const toggleButton = document.getElementById('toggle_button');
-            const toggleButtonImage = document.querySelector('#navigation-bar .logo_container #toggle_button img');
-            const sideBar = document.getElementById('navigation-bar');
+            const toggleButton = document.getElementById('toggle-button');
+            const toggleButtonImage = document.querySelector('#mobile-navigation-bar .logo-container #toggle-button img');
+            const navigationBar = document.getElementById('mobile-navigation-bar');
             let isOpen = false;
             
             toggleButton.addEventListener('click', () => {
                 isOpen = !isOpen;
                 if (isOpen) {
                     toggleButtonImage.classList.add('rotated')
-                    sideBar.classList.add('open');
+                    navigationBar.classList.add('open');
                 } else {
                     toggleButtonImage.classList.remove('rotated')
-                    sideBar.classList.remove('open');
+                    navigationBar.classList.remove('open');
                 }
             });
         </script>

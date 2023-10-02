@@ -186,7 +186,6 @@ class CustomerService:
             .outerjoin(Customer.photos)
             .where(Customer.id == customerID)
         ).unique().one()
-        startedTime = time()
         # Introducer
         introducerResult = None
         if customer.introducer is not None:
@@ -231,7 +230,6 @@ class CustomerService:
             note = customer.note,
             profilePicture = profilePictureResult,
             secondaryPhotos = secondaryPhotosResult)
-        print(time() - startedTime)
         return result
 
     @classmethod

@@ -41,8 +41,8 @@
                                 <tr>
                                     <td class="label">Đã tạo: </td>
                                     <td class="field">
-                                        {{ customer.updatedDateTime }} 
-                                        {% if customer.updatedDateTime != "Vừa xong" %}
+                                        {{ customer.createdTimeDelta }} 
+                                        {% if customer.createdTimeDelta != "Vừa xong" %}
                                             trước
                                         {% endif %}
                                         <br/>
@@ -51,8 +51,8 @@
                                 <tr>
                                     <td class="label">Sửa lần cuối: </td>
                                     <td class="field">
-                                        {{ customer.updatedDateTime }} 
-                                        {% if customer.updatedDateTime != "Vừa xong" %}
+                                        {{ customer.updatedTimeDelta }} 
+                                        {% if customer.updatedTimeDelta != "Vừa xong" %}
                                             trước
                                         {% endif %}
                                         <br/>
@@ -98,7 +98,7 @@
                         </tr>
                         <tr>
                             <td class="label" align="right">Email</td>
-                            <td class="field">
+                            <td class="field email">
                                 <a href="mailto: {{ customer.email }}">
                                     {{ customer.email }}
                                 </a>

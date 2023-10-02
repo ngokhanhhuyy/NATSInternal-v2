@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td class="label">Ngày sinh</td>
-                            <td class="field"><span>{{ user.birthdayString }}</span></td>
+                            <td class="field"><span>{{ user.birthday.strftime("%d-%m-%Y") }}</span></td>
                         </tr>
                         <tr>
                             <td class="label">Số điện thoại</td>
@@ -96,15 +96,27 @@
                         </tr>
                         <tr>
                             <td class="label">Ngày gia nhập</td>
-                            <td class="field">{{ user.joiningDateString }}</td>
+                            <td class="field">{{ user.joiningDate.strftime("%d-%m-%Y") }}</td>
                         </tr>
                         <tr>
                             <td class="label">Tạo tài khoản</td>
-                            <td class="field">{{ user.createdDateTimeString }}</td>
+                            <td class="field">
+                                {% if user.createdTimeDeltaText != "Vừa xong" %}
+                                    {{ user.createdTimeDeltaText }} trước
+                                {% else %}
+                                    {{ user.createdDateTimeText }}
+                                {% endif %}
+                                </td>
+                                
                         </tr>
                         <tr>
                             <td class="label">Sửa lần cuối</td>
-                            <td class="field">{{ user.updatedTimeDeltaString }}</td>
+                            <td class="field">
+                                {% if user.updatedTimeDeltaText != "Vừa xong" %}
+                                    {{ user.updatedTimeDeltaText }} trước
+                                {% else %}
+                                    {{ user.updatedTimeDeltaText }}
+                                {% endif %}</td>
                         </tr>
                         <tr>
                             <td class="label">Tình trạng</td>

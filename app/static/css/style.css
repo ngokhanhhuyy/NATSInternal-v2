@@ -266,6 +266,7 @@ table {
     display: inline-block;
 }
 
+#mobile-navigation-bar .personal-container .position-tag,
 #sidebar .profile .position-tag {
     background: gray;
     color: white;
@@ -275,16 +276,29 @@ table {
     display: inline-block;
 }
 
+#mobile-navigation-bar .personal-container .position-tag.developer,
 #sidebar .profile .position-tag.developer {
     background: darkmagenta;
 }
 
+#mobile-navigation-bar .personal-container .position-tag.manager,
 #sidebar .profile .position-tag.manager {
     background: darkblue;
 }
 
+#mobile-navigation-bar .personal-container .position-tag.family-member,
 #sidebar .profile .position-tag.family-member {
     background: darkgoldenrod;
+}
+
+#sidebar .personal-menu {
+    padding: 10px;
+}
+
+#sidebar .personal-menu a {
+    width: 80%;
+    display: block;
+    margin: 5px auto;
 }
 
 #announcement {
@@ -397,10 +411,11 @@ a {
     .content-column {
         border-left: none;
         margin-top: 60px !important;
+        min-height: calc(100vh - 60px);
     }
 
     #mobile-navigation-bar {
-        background: white;
+        background: rgba(245, 250, 255);
         height: 60px;
         width: 100%;
         border-bottom: 1px solid #ccc;
@@ -408,15 +423,30 @@ a {
         position: fixed;
         top: 0px;
         z-index: 1000;
+        transition-duration: 0.2s;
+        overflow: hidden;
+    }
+    
+    #mobile-navigation-bar.open {
+        height: 100%;
+    }
+    
+    #mobile-navigation-bar .logo-container {
+        background: white;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    #mobile-navigation-bar.open .logo-container {
+        border-bottom: 1px solid #ccc;
     }
 
-    #mobile-navigation-bar .mobile-logo {
+    #mobile-navigation-bar .logo-container img.mobile-logo {
         width: 60px;
         height: 60px;
         padding: 10px;
     }
 
-    #mobile-navigation-bar .app-name {
+    #mobile-navigation-bar .logo-container .app-name {
         color: black;
         font-size: 20px;
         font-weight: bold;
@@ -425,7 +455,7 @@ a {
         vertical-align: middle;
     }
 
-    #mobile-navigation-bar .toggle-button {
+    #mobile-navigation-bar .logo-container #toggle-button {
         width: 40px;
         height: 40px;
         border: 1px solid #ccc;
@@ -438,9 +468,113 @@ a {
         cursor: pointer;
     }
 
-    #mobile-navigation-bar .toggle-button img {
+    #mobile-navigation-bar .logo-container #toggle-button img {
         width: 100%;
         height: 100%;
+    }
+
+    #mobile-navigation-bar .menu-container table {
+        table-layout: fixed;
+        width: 100%;
+        margin: 30px 0;
+    }
+
+    #mobile-navigation-bar  .menu-container table a {
+        color: rgb(100, 100, 100) !important;
+    }
+
+    #mobile-navigation-bar  .menu-container table a .item-button {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: 100%;
+        margin: auto auto;
+        padding: 10px;
+        text-align: center;
+    }
+
+    #mobile-navigation-bar  .menu-container table a .item-button.selected {
+        background: rgb(75, 120, 255);
+        color: white;
+    }
+
+    #mobile-navigation-bar  .menu-container table a .item-button.customer {
+        font-size: 0.85em;
+    }
+
+    #mobile-navigation-bar  .menu-container table a .item-button img.icon {
+        filter: brightness(50%);
+        width: 40;
+        height: 40px;
+        margin-top: 2px;
+    }
+
+    #mobile-navigation-bar  .menu-container table a .item-button.selected img.icon {
+        filter: brightness(100%);
+    }
+
+    #mobile-navigation-bar  .menu-container table a .item-button span {
+        margin: 0;
+        margin-top: 5px;
+        display: block;
+    }
+
+    #mobile-navigation-bar .personal-container {
+        background: white;
+        width: 100%;
+        padding: 0 30px 30px 30px;
+        text-align: center;
+        height: 100vh;
+        margin-top: 80px;
+        border-top: 1px solid #ccc;
+    }
+
+    #mobile-navigation-bar .personal-container .profile-picture-container {
+        text-align: center;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        position: relative;
+        display: flex;
+    }
+
+    #mobile-navigation-bar .personal-container .profile-picture-container img {
+        width: 120px;
+        height: 120px;
+        display: block;
+        margin-top: -60px;
+        border: 3px solid white;
+        outline: 1px solid #ccc;
+        border-radius: 50%;
+    }
+
+    #mobile-navigation-bar .personal-container span {
+        align-self: center;
+        display: inline-block;
+    }
+
+    #mobile-navigation-bar .personal-container span.fullname {
+        font-size: 1.5em;
+        margin-top: 8px;
+    }
+
+    #mobile-navigation-bar .personal-container span.username {
+        color: rgb(130, 130, 130);
+        font-size: 1.1em;
+        margin-top: -5px;
+    }
+
+    #mobile-navigation-bar .personal-container table.personal-menu {
+        width: 100%;
+        table-layout: fixed;
+        margin-top: 15px;
+    }
+
+    #mobile-navigation-bar .personal-container table.personal-menu tr td {
+        width: 100px;
+        padding: 5px;
     }
 }
 

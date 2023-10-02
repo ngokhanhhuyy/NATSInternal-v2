@@ -11,7 +11,7 @@ from app.services.authentication_service import loginRequired
 def userListPage():
     return "Hello"
 
-@application.route("/user/<int:userID>", endpoint="user", methods=["GET", "POST"])
+@application.route("/user/<int:userID>", endpoint="userProfile", methods=["GET", "POST"])
 @loginRequired
 def userProfilePage(userID: int):
     try:
@@ -19,5 +19,5 @@ def userProfilePage(userID: int):
     except NotFoundError:
         abort(404)
     return render_template(
-        "user.html",
+        "user/user_profile.html",
         user=userResult)

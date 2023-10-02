@@ -9,6 +9,7 @@ from app.errors import NotFoundError
 from dataclasses import dataclass
 from datetime import date, datetime
 from typing import List, Dict, Any
+from devtools import debug
 
 @dataclass
 class UserPhotoResult:
@@ -32,14 +33,15 @@ class UserProfileResult:
     idCardNumber: str
     joiningDate: date | None
     createdDateTime: datetime | None
-    createdDateTimeDeltaText: str
+    createdTimeDeltaText: str
     updatedDateTime: datetime | None
-    updatedDateTimeDeltaText: str
+    updatedTimeDeltaText: str
     status: str
     note: str
     profilePicture: UserPhotoResult | None
     secondaryPhotos: List[UserPhotoResult]
     roles: List[UserRoleResult]
+    onlineStatus: str 
 
 class UserService:
     @classmethod
@@ -67,6 +69,14 @@ class UserService:
             .where(User.id == id)
         ).first()
         if user is not None:
+            if user.isOnline:
+                onlineStatus = "Online"
+            elif user.session is not None:
+                onlineStatus = Time.getTimeDeltaText(
+                    Time.getCurrentDateTime(),
+                    user.session.lastAccessDateTime)
+            else:
+                onlineStatus = "Offline"
             userResult = UserProfileResult(
                 id = user.id,
                 userName = user.userName,
@@ -78,11 +88,11 @@ class UserService:
                 idCardNumber = user.idCardNumber,
                 joiningDate = user.joiningDate,
                 createdDateTime = user.createdDateTime,
-                createdDateTimeDeltaText = Time.getTimeDeltaText(
+                createdTimeDeltaText = Time.getTimeDeltaText(
                     Time.getCurrentDateTime(),
                     user.createdDateTime),
                 updatedDateTime = user.updatedDateTime,
-                updatedDateTimeDeltaText = Time.getTimeDeltaText(
+                updatedTimeDeltaText = Time.getTimeDeltaText(
                     Time.getCurrentDateTime(),
                     user.updatedDateTime),
                 status = user.status,
@@ -94,7 +104,9 @@ class UserService:
                 secondaryPhotos = [UserPhotoResult(
                     id = photo.id,
                     content = photo.contentDecoded) for photo in user.secondaryPhotos],
-                roles = [UserRoleResult(id = role.id, name = role.name) for role in user.roles])
+                roles = [UserRoleResult(id = role.id, name = role.name) for role in user.roles],
+                onlineStatus = onlineStatus)
+            debug(userResult)
             return userResult
         else:
             raise NotFoundError(
