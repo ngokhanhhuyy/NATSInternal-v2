@@ -25,7 +25,7 @@ engine.dialect.identifier_preparer._double_percents = True
 engine.dialect.identifier_preparer._double_quote = True
 engine.dialect.identifier_preparer._quote = lambda value, identifier: quoted_name(value, identifier)
 ScopeSession = scoped_session(sessionmaker(
-    expire_on_commit=False,
+    expire_on_commit=True,
     autocommit=False,
     autoflush=False,
     bind=engine))
@@ -77,7 +77,9 @@ def getDatabaseSession() -> Session:
 @application.teardown_appcontext
 def destroyingDatabaseSession(exception: Exception = None):
     """Destroying existing database session when the request - response circle ended."""
-    ScopeSession.remove()
+    ScopeSession.close_all()
+    engine.dispose()
+    print("disposed")
 
 @contextmanager
 def getTemporaryDatabaseSession() -> Generator[Session, None, None]:
