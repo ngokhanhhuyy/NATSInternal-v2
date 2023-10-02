@@ -70,8 +70,8 @@ class CustomerResult:
     facebookURL: str
     email: str
     address: str
-    createdDateTime: datetime
-    updatedDateTime: datetime
+    createdTimeDelta: str
+    updatedTimeDelta: str
     introducer: CustomerIntroducerResult | None
     note: str
     profilePicture: CustomerPhotoResult | None
@@ -221,10 +221,10 @@ class CustomerService:
             facebookURL = customer.facebookURL,
             email = customer.email,
             address = customer.address,
-            createdDateTime = Time.getTimeDeltaText(
+            createdTimeDelta = Time.getTimeDeltaText(
                 Time.getCurrentDateTime(),
                 customer.createdDateTime),
-            updatedDateTime = Time.getTimeDeltaText(
+            updatedTimeDelta = Time.getTimeDeltaText(
                 Time.getCurrentDateTime(),
                 customer.updatedDateTime),
             introducer = introducerResult,
