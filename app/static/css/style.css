@@ -22,7 +22,7 @@ body, html {
 
 body {
     color: rgb(100, 100, 100) !important;
-    font-family: Libre Franklin, Arial, Helvetica, sans-serif !important;
+    font-family: Arial, Libre Franklin, Arial, Helvetica, sans-serif !important;
     background-color: rgb(245, 245, 245) !important;
     display: flex;
     justify-content: start;
