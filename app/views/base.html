@@ -113,36 +113,39 @@
             <div class="personal-container">
                 <div class="profile-picture-container">
                     {% if requestedUser.profilePicture is none %}
-                        <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}"><br/>
+                        <img class="profile-picture" src="{{ url_for('static', filename='profile_pictures/default.png') }}">
                     {% else %}
-                        <img class="profile-picture" src="data:image/jpeg;base64,{{ requestedUser.profilePicture }}"><br/>
+                        <img class="profile-picture" src="data:image/jpeg;base64,{{ requestedUser.profilePicture }}">
                     {% endif %}
                 </div>
-                <span class="fullname">{{ requestedUser.fullName }}</span><br/>
-                <span class="username">@{{ requestedUser.userName }}</span><br/>
-                {% for role in requestedUser.roles %}
-                    {% if role == "Nhà phát triển" %}
-                        {% set className = "developer" %}
-                    {% elif role == "Thành viên gia đình" %}
-                        {% set className = "family" %}
-                    {% elif role == "Giám đốc" %}
-                        {% set className = "owner" %}
-                    {% elif role == "Quản lý" %}
-                        {% set className = "manager" %}
-                    {% elif role == "Thu ngân" %}
-                        {% set className = "cashier" %}
-                    {% elif role == "Kế toán" %}
-                        {% set className = "accountant" %}
-                    {% elif role == "Nhân viên" %}
-                        {% set className = "staff" %}
-                    {% elif role == "Cộng tác viên" %}
-                        {% set className = "colaborator" %}
-                    {% endif %}
-                    <span class="position-tag {{ className }}">
-                        {{ role }}
-                    </span><br/>
-                {% endfor %}
-                <table class="personal-menu">
+                <div class="name-container">
+                    <span class="fullname">{{ requestedUser.fullName }}</span><br/>
+                    <span class="username">@{{ requestedUser.userName }}</span><br/>
+                    {% for role in requestedUser.roles %}
+                        {% if role == "Nhà phát triển" %}
+                            {% set className = "developer" %}
+                        {% elif role == "Thành viên gia đình" %}
+                            {% set className = "family" %}
+                        {% elif role == "Giám đốc" %}
+                            {% set className = "owner" %}
+                        {% elif role == "Quản lý" %}
+                            {% set className = "manager" %}
+                        {% elif role == "Thu ngân" %}
+                            {% set className = "cashier" %}
+                        {% elif role == "Kế toán" %}
+                            {% set className = "accountant" %}
+                        {% elif role == "Nhân viên" %}
+                            {% set className = "staff" %}
+                        {% elif role == "Cộng tác viên" %}
+                            {% set className = "colaborator" %}
+                        {% endif %}
+                        <span class="position-tag {{ className }}">
+                            {{ role }}
+                        </span><br/>
+                    {% endfor %}</div>
+            </div>
+            <div class="personal-menu">
+                <table>
                     <tr>
                         <td align="center">
                             <a href="{{ url_for('userProfile', userID = requestedUser.id) }}">
