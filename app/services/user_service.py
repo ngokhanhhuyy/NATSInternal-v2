@@ -1,6 +1,8 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
 from app.data import getDatabaseSession
 from app.models.user import User
 from app.services.request_validation_service import UNASSIGNED
@@ -45,7 +47,7 @@ class UserProfileResult:
 
 class UserService:
     @classmethod
-    def getAllUsers(cls) -> Dict[int, Dict[str, Any]]:
+    def getAllUsers(cls) -> List[Dict[str, Any]]:
         session = getDatabaseSession()
         users = session.scalars(
             select(User)
@@ -55,7 +57,7 @@ class UserService:
                 joinedload(User.session))
             .order_by(User.id)
         ).all()
-        return users
+        return [user.__dict__ for user in users]
     
     @classmethod
     def getUserByID(cls, id: int) -> UserProfileResult:

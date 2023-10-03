@@ -13,7 +13,8 @@ from app.extensions.date_time import Time
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from dataclasses import dataclass, asdict
-from typing import List, Dict, Any, TypedDict
+from typing import Tuple, List, Dict, Any, TypedDict
+from collections import namedtuple
 from devtools import debug
 from time import time
 
@@ -340,7 +341,7 @@ class CustomerService:
         )
         rows = session.execute(
             select(
-                text('"MonthYearSeries"."Month"'),
+                text('"MonthYearSeries"."Month"::INTEGER'),
                 func.coalesce(text('"TotalCustomerCount"."Count"'), 0)
             ).select_from(MonthYearSeriesQuery)
             .outerjoin(
@@ -416,7 +417,7 @@ class CustomerService:
         )
         rows = session.execute(
             select(
-                text('"MonthYearSeries"."Month"'),
+                text('"MonthYearSeries"."Month"::INTEGER'),
                 func.count(text('"OrderCount"."CustomerID"'))
             ).select_from(monthYearSeriesSubQuery)
             .outerjoin(
@@ -503,7 +504,7 @@ class CustomerService:
         )
         rows = session.execute(
             select(
-                text('"MonthYearSeries"."month"'),
+                text('"MonthYearSeries"."month"::INTEGER'),
                 func.count(text('"QualifiedOrder"."customerID"'))
             ).select_from(monthYearSubQuery)
             .outerjoin(
@@ -678,8 +679,9 @@ class CustomerService:
         ).all()
         data = {}
         for i in reversed(range(len(rows))):
-            row: tuple[int, int, timedelta] = rows[i]
-            _year, month, delta = row
+            row = rows[i]
+            month: int = row[1]
+            delta: timedelta = row[2]
             if i == 0:
                 data["Tháng này"] = round(delta.total_seconds() / (24 * 60 * 60), 2)
             else:

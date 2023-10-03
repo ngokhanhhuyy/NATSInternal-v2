@@ -25,12 +25,7 @@ from app.models.activity import Activity
 from app.models.user_session import UserSession
 
 with getTemporaryDatabaseSession() as session:
-    user = session.scalars(
+    user = session.execute(
         select(User)
         .join(User.session)
-        .where(
-            and_(
-                User.id == 1
-            )
-        )
-    ).unique().first()
+    ).first()
