@@ -132,93 +132,93 @@ def loginRequired(function: Callable[..., Response]) -> Response:
 class AuthenticationService:
     @classmethod
     def getApiKey(cls, userName: str, password: str, ipAddress: str) -> Dict[str, str]:
-        with getDatabaseSession() as session:
-            user = session.scalars(
-                select(User)
-                .where(User.userName == userName)
-            ).first()
-            if user is not None:
-                isPasswordCorrect = user.verifyPassword(password)
-                if isPasswordCorrect:
-                    userApiKey = user.apiKey
-                    userApiKey.lastUsedDateTime = Time.getCurrentDateTime()
-                    userApiKey.lastUsedIPAddress = ipAddress
-                    authenticationData = {
-                        "userID":       user.id,
-                        "apiKey":       userApiKey.key
-                    }
-                    # Logging login action into database
-                    activity = Activity()
-                    activity.userID = user.id
-                    activity.action = Activity.Actions.GettingApiKey
-                    activity.isFinished = True
-                    session.add(activity)
-                    session.commit()
-                    return authenticationData
-                else:
-                    raise AuthenticationError("User's password is incorrect")
+        session = getDatabaseSession()
+        user = session.scalars(
+            select(User)
+            .where(User.userName == userName)
+        ).first()
+        if user is not None:
+            isPasswordCorrect = user.verifyPassword(password)
+            if isPasswordCorrect:
+                userApiKey = user.apiKey
+                userApiKey.lastUsedDateTime = Time.getCurrentDateTime()
+                userApiKey.lastUsedIPAddress = ipAddress
+                authenticationData = {
+                    "userID":       user.id,
+                    "apiKey":       userApiKey.key
+                }
+                # Logging login action into database
+                activity = Activity()
+                activity.userID = user.id
+                activity.action = Activity.Actions.GettingApiKey
+                activity.isFinished = True
+                session.add(activity)
+                session.commit()
+                return authenticationData
             else:
-                raise AuthenticationError("User doesn't exist")
+                raise AuthenticationError("User's password is incorrect")
+        else:
+            raise AuthenticationError("User doesn't exist")
 
     @classmethod
-    def getJwtToken(cls, userName: str, password: str, **kwargs: Any) -> str:
-        with getDatabaseSession() as session:
-            user = session.scalars(
-                select(User)
-                .where(User.userName == userName)
-            ).first()
-            if user is None:
-                raise AuthenticationError("Username doesn't exist")
-            if not user.verifyPassword(password=password):
-                raise AuthenticationError("Password is incorrect")
-            payload = {
-                "issuer":           user.id,
-                "subject":          user.userName,
-                "expiration":       Time.getCurrentDateTime() + timedelta(hours=2)
-            }
-            secretKey = Config.SECRET_KEY
-            algorithm = "HS256"
-            jwtToken = jwt.encode(payload=payload, key=secretKey, algorithm=algorithm)
-            return jwtToken
+    def getJwtToken(cls, userName: str, password: str) -> str:
+        session = getDatabaseSession()
+        user = session.scalars(
+            select(User)
+            .where(User.userName == userName)
+        ).first()
+        if user is None:
+            raise AuthenticationError("Username doesn't exist")
+        if not user.verifyPassword(password=password):
+            raise AuthenticationError("Password is incorrect")
+        payload = {
+            "issuer":           user.id,
+            "subject":          user.userName,
+            "expiration":       Time.getCurrentDateTime() + timedelta(hours=2)
+        }
+        secretKey = Config.SECRET_KEY
+        algorithm = "HS256"
+        jwtToken = jwt.encode(payload=payload, key=secretKey, algorithm=algorithm)
+        return jwtToken
 
     @classmethod
     def login(cls, userName: str, password: str) -> Dict[str, Any]:
-        with getDatabaseSession() as session:
-            user = session.scalars(
-                select(User)
-                .options(joinedload(User.session))
-                .where(User.userName == userName)
-            ).first()
-            # Checking if staff username is existing in the database
-            if user is not None:
-                # Checking if password is valid
-                if not user.verifyPassword(password):
-                    raise AuthenticationError("Mật khẩu không đúng.")
-                # Login data is valid, modifying session if existing
-                if user.session is not None:
-                    user.session.generateNewSessionToken(
-                        ipAddress=request.remote_addr,
-                        userAgent=request.user_agent.string)
-                # Create new session if user has no session
-                else:
-                    userSession = UserSession(
-                        userID=user.id,
-                        ipAddress=request.remote_addr,
-                        userAgent=request.user_agent.string)
-                    user.session = userSession
-                session.commit()
-                return {
-                    "userID":           user.id,
-                    "sessionToken":     user.session.token
-                }
+        session = getDatabaseSession()
+        user = session.scalars(
+            select(User)
+            .options(joinedload(User.session))
+            .where(User.userName == userName)
+        ).first()
+        # Checking if staff username is existing in the database
+        if user is not None:
+            # Checking if password is valid
+            if not user.verifyPassword(password):
+                raise AuthenticationError("Mật khẩu không đúng.")
+            # Login data is valid, modifying session if existing
+            if user.session is not None:
+                user.session.generateNewSessionToken(
+                    ipAddress=request.remote_addr,
+                    userAgent=request.user_agent.string)
+            # Create new session if user has no session
             else:
-                raise AuthenticationError("Tài khoản không tồn tại.")
+                userSession = UserSession(
+                    userID=user.id,
+                    ipAddress=request.remote_addr,
+                    userAgent=request.user_agent.string)
+                user.session = userSession
+            session.commit()
+            return {
+                "userID":           user.id,
+                "sessionToken":     user.session.token
+            }
+        else:
+            raise AuthenticationError("Tài khoản không tồn tại.")
         
     @classmethod
     @authenticationRequired
     def logout(cls) -> None:
-        with getDatabaseSession() as session:
-            requestedUser: User = requestContext.requestedUser
-            requestedSession: UserSession = requestedUser.session
-            session.delete(requestedSession)
-            session.commit()
+        session = getDatabaseSession()
+        requestedUser: User = requestContext.requestedUser
+        requestedSession: UserSession = requestedUser.session
+        session.delete(requestedSession)
+        session.commit()
