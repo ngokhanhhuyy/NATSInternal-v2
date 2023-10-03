@@ -79,7 +79,6 @@ def destroyingDatabaseSession(exception: Exception = None):
     """Destroying existing database session when the request - response circle ended."""
     ScopeSession.close_all()
     engine.dispose()
-    print("disposed")
 
 @contextmanager
 def getTemporaryDatabaseSession() -> Generator[Session, None, None]:

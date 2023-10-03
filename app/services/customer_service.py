@@ -309,7 +309,7 @@ class CustomerService:
             count: int = rows[i][2]
             if i > -1:
                 result[list(result.keys())[i]]["name"] = "Tháng " + str(month)
-            result[list(result.keys())[i]]["count"] = count
+            result[list(result.keys())[i]]["count"] = int(count)
         return result
         
     @classmethod
