@@ -267,8 +267,8 @@ class CustomerService:
         )
         rows = session.execute(
             select(
-                text('"MonthYearSeries"."Year"'),
-                text('"MonthYearSeries"."Month"'),
+                text('"MonthYearSeries"."Year"::INTEGER'),
+                text('"MonthYearSeries"."Month"::INTEGER'),
                 func.coalesce(text('"TotalCustomerCount"."Count"'), 0)
             ).select_from(MonthYearSeriesQuery)
             .outerjoin(
@@ -657,8 +657,8 @@ class CustomerService:
         ).alias("MonthSeries")
         rows = session.execute(
             select(
-                text('"MonthSeries"."Year"'),
-                text('"MonthSeries"."Month"'),
+                text('"MonthSeries"."Year"::INTEGER'),
+                text('"MonthSeries"."Month"::INTEGER'),
                 func.avg(
                     text('"CustomerDelta"."CreatedDateTime" - "CustomerDelta"."PreviousDateTime"'))
                     .label("AverageDelta")
