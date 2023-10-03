@@ -4,19 +4,15 @@ from flask_bcrypt import Bcrypt
 import os
 
 
-application = Flask(
-    __name__,
-    template_folder="views")
+application = Flask(__name__)
 bcrypt = Bcrypt(application)
 # Define application's configurations
 application.config.from_object(Config)
 # Determine database connection string
-if os.getenv("FLASK_ENV") == "development":
-    application.config["SQLALCHEMY_DATABASE_URI"] = DevelopmentConfig.SQLALCHEMY_DATABASE_URI
-elif os.getenv("FLASK_ENV") == "production":
+if os.getenv("FLASK_ENV") == "production":
     application.config["SQLALCHEMY_DATABASE_URI"] = ProductionConfig.SQLALCHEMY_DATABASE_URI
 else:
-    raise ValueError
+    application.config["SQLALCHEMY_DATABASE_URI"] = DevelopmentConfig.SQLALCHEMY_DATABASE_URI
 application.json.sort_keys = False
 
 # Routes

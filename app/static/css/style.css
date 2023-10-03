@@ -506,7 +506,7 @@ a {
 
     #mobile-navigation-bar  .menu-container table a .item-button img.icon {
         filter: brightness(50%);
-        width: 40;
+        width: 40px;
         height: 40px;
         margin-top: 2px;
     }
@@ -516,8 +516,7 @@ a {
     }
 
     #mobile-navigation-bar  .menu-container table a .item-button span {
-        margin: 0;
-        margin-top: 5px;
+        margin: 5px 0 0 0;
         display: block;
     }
 
@@ -540,13 +539,13 @@ a {
         align-items: flex-start;
         width: fit-content;
         position: relative;
-        margin-top: -45px;
+        margin-top: -42px;
         display: flex;
     }
 
     #mobile-navigation-bar .personal-container .profile-picture-container img {
-        width: 90px;
-        height: 90px;
+        width: 84px;
+        height: 84px;
         display: block;
         border-radius: 50%;
         z-index: 2;
@@ -554,11 +553,11 @@ a {
 
     #mobile-navigation-bar .personal-container .name-container {
         background: white;
-        border-radius: 45px;
+        border-radius: 49px;
         position: relative;
         margin-top: -49px;
         text-align: center;
-        margin-left: -94px;
+        margin-left: -91px;
         padding: 0 45px 0 115px;
         height: 98px;
     }

@@ -7,7 +7,7 @@
     margin-bottom: 25px;
 }
 
-.profile-picture {
+.block.name .profile-picture {
     background: rgb(240, 240, 240);
     width: 100px;
     height: 100px;
@@ -16,24 +16,24 @@
     outline: 1px solid #ccc;
 }
 
-.profile-picture-column {
+.block.name .profile-picture-column {
     max-width: 100px !important;
 }
 
-.fullname {
+.block.name .fullname {
     font-size: 22px;
 }
 
-.username {
+.block.name .username {
     font-size: 17px;
 }
 
-.position-container {
+.block.name .position-container {
     display: inline-block;
 }
 
-.position-container .position-tag {
-    background: gray;
+.block.name .position-container .position-tag {
+    background: rgb(128, 128, 128);
     color: white;
     padding: 1px 5px;
     border-radius: 5px;
@@ -41,82 +41,82 @@
     display: inline-block;
 }
 
-.position-container .position-tag.developer {
+.block.name .position-container .position-tag.developer {
     background: darkmagenta;
 }
 
-.position-container .position-tag.owner {
+.block.name .position-container .position-tag.owner {
     background: darkred;
 }
 
-.position-container .position-tag.family-member {
+.block.name .position-container .position-tag.family-member {
     color: black;
     background: gold;
 }
 
-.position-container .position-tag.manager {
+.block.name .position-container .position-tag.manager {
     background: darkblue;
 }
 
-.position-container .position-tag.accountant {
+.block.name .position-container .position-tag.accountant {
     background: green;
 }
 
-.position-container .position-tag.cashier {
+.block.name .position-container .position-tag.cashier {
     color: black;
     background: rgb(0, 214, 214);
 }
 
-.position-container .position-tag.staff {
+.block.name .position-container .position-tag.staff {
     color: black;
     background: darkorange;
 }
 
-.personal-info {
+.block .personal-info {
     height: 100%;
 }
 
-.personal-info table {
+.block.personal-info table {
     table-layout: fixed;
     font-size: 13px;
     border: none;
 }
 
-.personal-info table td {
+.block.personal-info table td {
     padding: 5px 15px;
 }
 
-.personal-info .label {
+.block.personal-info .label {
     width: 100px;
     text-align: right;
 }
 
-.personal-info .field {
+.block.personal-info .field {
     color: darkblue;
     overflow: hidden;
     text-overflow: ellipsis;
     width: calc(100% - 100px);
 }
 
-.personal-info .field span {
+.block.personal-info .field span {
     width: 100%;
     overflow: hidden;
     display: block;
 }
 
-.personal-info span.null-field {
+.block.personal-info span.null-field {
     color: silver;
 }
 
-.personal-info .field .badge {
+.block.personal-info .field .badge {
     font-weight: normal;
 }
 
-.photo-container {
+.block.photo-container {
     vertical-align: center;
 }
 
-.photo-container span {
+.block.photo-container span {
     color: silver;
     display: inline-block;
     width: 100%;
@@ -124,7 +124,7 @@
     text-align: center;
 }
 
-.photo-container img {
+.block.photo-container img {
     width: 80px;
     height: 80px;
     border-radius: 10px;
@@ -132,11 +132,11 @@
     object-fit: cover;
 }
 
-.photo-container img:hover {
+.block.photo-container img:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-.photo-container, .links {
+.block.photo-container, .links {
     height: 100%;
 }
 
@@ -149,23 +149,24 @@
 }
 
 .row > [class*='col-'] {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: 991px) {
-    .photos img {
-        width: 140px;
-        height: 140px;
-    }
 }
 
 @media (max-width: 480px) {
-    .fullname {
-        font-size: 18px;
+    .block.name .profile-picture {
+        width: 80px;
+        height: 80px;
     }
 
-    .username {
-        font-size: 15px;
+    .block.name .fullname {
+        font-size: 1.1em;
+    }
+
+    .block.name .username {
+        font-size: 1em;
     }
 }

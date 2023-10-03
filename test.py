@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
-from app.data import getDatabaseSession, getTemporaryDatabaseSession
+from app import application
+from app.data import getDatabaseSession
 from app.models.customer import Customer
 from app.models.user import User
 from app.models.role import Role
@@ -15,6 +16,7 @@ from faker import Faker
 import requests
 import uuid
 from devtools import debug
+from typing import List
 
 from app.models.announcement import Announcement
 from app.models.role_permission import RolePermission
@@ -24,8 +26,12 @@ from app.models.photo import Photo
 from app.models.activity import Activity
 from app.models.user_session import UserSession
 
-with getTemporaryDatabaseSession() as session:
-    user: List[User] = session.execute(
+with application.app_context():
+    session = getDatabaseSession()
+    users = session.scalars(
         select(User)
         .join(User.session)
-    ).first()
+    ).all()
+
+    for user in users:
+        print(user.userName)

@@ -45,27 +45,5 @@ def initializeDatabase():
     from app.models.treatment_payment import TreatmentPayment
     from app.models.photo import Photo
 
-def getDatabaseSession() -> Session:
+def getDatabaseSession() -> scoped_session[Session]:
     return database.session
-
-# @application.before_request
-# def creatingDatabaseSession():
-#     """Creating a new database session for each request."""
-#     requestContext.databaseSession: scoped_session[Session] = ScopeSession()
-
-# @application.teardown_appcontext
-# def destroyingDatabaseSession(exception: Exception = None):
-#     """Destroying existing database session when the request - response circle ended."""
-#     ScopeSession.close_all()
-#     engine.dispose()
-
-@contextmanager
-def getTemporaryDatabaseSession() -> Generator[Session, None, None]:
-    session: Session = requestContext.databaseSession
-    try:
-        yield session
-    except Exception:
-        session.rollback()
-        raise
-    finally:
-        session.close()
