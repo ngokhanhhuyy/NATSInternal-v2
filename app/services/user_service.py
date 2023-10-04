@@ -107,7 +107,7 @@ class UserService:
                     id = photo.id,
                     content = photo.contentDecoded) for photo in user.secondaryPhotos],
                 roles = [UserRoleResult(id = role.id, name = role.name) for role in user.roles],
-                onlineStatus = onlineStatus)
+                onlineStatus = user.onlineStatus)
             debug(userResult)
             return userResult
         else:
