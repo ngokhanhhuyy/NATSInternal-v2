@@ -1,5 +1,5 @@
 import pytz
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 from app.config import Config
 
 class Time:
@@ -7,13 +7,13 @@ class Time:
 
     @classmethod
     def getCurrentDateTime(cls) -> datetime:
-        currentDateTime = datetime.now()
-        return currentDateTime.astimezone(cls.__timeZone)
+        currentDateTime = datetime.utcnow()
+        return currentDateTime
     
     @classmethod
     def getCurrentDate(cls) -> date:
-        currentDate = datetime.today()
-        return currentDate.astimezone(cls.__timeZone)
+        currentDate = datetime.utcnow().date()
+        return currentDate
     
     @classmethod
     def getTimeDeltaText(cls, dateTime1: datetime, dateTime2: datetime) -> str:
