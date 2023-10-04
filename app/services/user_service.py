@@ -108,7 +108,8 @@ class UserService:
                     content = photo.contentDecoded) for photo in user.secondaryPhotos],
                 roles = [UserRoleResult(id = role.id, name = role.name) for role in user.roles],
                 onlineStatus = user.onlineStatus)
-            debug(userResult)
+            print(onlineStatus)
+            print(datetime.now())
             return userResult
         else:
             raise NotFoundError(
