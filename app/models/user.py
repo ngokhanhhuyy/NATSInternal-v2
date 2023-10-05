@@ -323,7 +323,7 @@ class User(Base):
                 permissions.append(userPermission.permission)
         return permissions
     
-    @hybrid_property
+    @property
     def permissionsWithApprovalRequired(self) -> List[Tuple["Permission", bool]]:
         permissions: List["Permission"] = []
         approvalRequired: List[bool] = []
@@ -335,7 +335,8 @@ class User(Base):
                 if rolePermission.permission not in permissions:
                     permissions.append(rolePermission.permission)
                     approvalRequired.append(rolePermission.approvalRequired)
-        return list(zip(permissions, approvalRequired))
+        result = list(zip(permissions, approvalRequired))
+        return result
     
 def adjustingUpdatedDateTime(session: Session, _context: str, _instance: Callable[..., None]):
     for obj in session.dirty:

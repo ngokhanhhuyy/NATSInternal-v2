@@ -128,3 +128,5 @@ with application.app_context():
 def returningInteger() -> int:
     return "123"
 
+a: bool = returningInteger()
+
