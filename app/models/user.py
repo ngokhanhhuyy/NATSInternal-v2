@@ -17,6 +17,7 @@ from enum import StrEnum, unique
 from datetime import timedelta
 if TYPE_CHECKING:
     from app.models.user_permission import UserPermission
+    from app.models.permission import Permission
     from app.models.role import Role
     from app.models.activity import Activity
     from app.models.user_session import UserSession
@@ -310,7 +311,32 @@ class User(Base):
             Time.getCurrentDateTime(),
             Time.addTimeZoneToDateTime(self.updatedDateTime)
         ) + " trước"
-
+    
+    @hybrid_property
+    def permissions(self) -> List["Permission"]:
+        permissions = []
+        for role in self.roles:
+            for rolePermission in role.rolePermissions:
+                permissions.append(rolePermission.permission)
+        for userPermission in self.userPermissions:
+            if userPermission.permission not in permissions:
+                permissions.append(userPermission.permission)
+        return permissions
+    
+    @hybrid_property
+    def permissionsWithApprovalRequired(self) -> List[Tuple["Permission", bool]]:
+        permissions: List["Permission"] = []
+        approvalRequired: List[bool] = []
+        for userPermission in self.userPermissions:
+            permissions.append(userPermission.permission)
+            approvalRequired.append(userPermission.approvalRequired)
+        for role in self.roles:
+            for rolePermission in role.rolePermissions:
+                if rolePermission.permission not in permissions:
+                    permissions.append(rolePermission.permission)
+                    approvalRequired.append(rolePermission.approvalRequired)
+        return list(zip(permissions, approvalRequired))
+    
 def adjustingUpdatedDateTime(session: Session, _context: str, _instance: Callable[..., None]):
     for obj in session.dirty:
         if isinstance(obj, User):

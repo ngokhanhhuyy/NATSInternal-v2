@@ -23,6 +23,8 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = f"postgresql://{localDBConfig['user']}:{localDBConfig['password']}" \
                                         f"@{localDBConfig['host']}:{localDBConfig['port']}/" \
                                         f"{localDBConfig['database']}"
+    SQLALCHEMY_ECHO = False
     
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = "postgresql://postgres:DMPu5pwzkSYbOFqKGPhf@containers-us-west-119.railway.app:7614/railway"
+    SQLALCHEMY_ECHO = False
